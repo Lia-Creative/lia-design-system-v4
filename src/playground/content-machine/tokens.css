@@ -1,0 +1,49 @@
+/*
+ * Scoped token overrides for the Content Machine prototype.
+ *
+ * Anything under `.playground-content-machine` only applies inside the
+ * prototype's wrapper div — not to other prototypes, not to the production app.
+ * At /design-review you decide which (if any) to backport to globals.css.
+ *
+ * Content Machine uses the global defaults for tokens; the only thing here is
+ * the desk-grain ::before, which every PrototypeShell-based prototype needs so
+ * the desk gets paper texture in colour mode (where the opaque tinted desk
+ * covers body::before).
+ */
+
+/*
+ * Desk-grain texture on the playground scope. Mirrors the body recipe but reads
+ * the scope's own --paper-* vars, which the shell sets inline per colour-mode
+ * paper. Light/dark fall back to the defaults here.
+ */
+.playground-content-machine::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/paper-texture.jpg');
+  background-size: 600px 600px;
+  background-repeat: repeat;
+  filter: var(--paper-filter, saturate(0) contrast(1.15));
+  mix-blend-mode: var(--paper-blend, multiply);
+  opacity: var(--paper-opacity, 0.55);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.playground-content-machine > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dark: invert + screen-blend the grain. The shell adds `dark` to the scope div
+   itself, so target the version scope directly (not a `.dark` ancestor). */
+.playground-content-machine--v1-dark {
+  --paper-blend: screen;
+  --paper-opacity: 0.7;
+  --paper-filter: saturate(0) contrast(1.15) invert(1);
+}
+
+/* Per-version visual deltas go here, scoped under .playground-content-machine--v<n>. */
+.playground-content-machine--v1 {
+  /* baseline, untouched after first ship */
+}

@@ -1,0 +1,34 @@
+<!-- Carried from Lia DS v2: force light mode on initial paint so OS dark preference
+     doesn't flash before the theme decorator runs. See CLAUDE.md > Storybook. -->
+<script>
+  document.documentElement.classList.remove('dark');
+  document.documentElement.style.colorScheme = 'light';
+</script>
+
+<!--
+  next/font doesn't run in Storybook's Vite environment, so the --font-figtree /
+  --font-dm-mono / --font-libre-baskerville CSS vars (set by next/font in the
+  Next.js app) are undefined here. Load the fonts via Google Fonts and define
+  the vars ourselves so globals.css resolves them correctly.
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link
+  href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300..500;1,300..500&family=Figtree:ital,wght@0,300..900;1,300..900&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap"
+  rel="stylesheet"
+/>
+
+<style>
+  :root {
+    --font-figtree: 'Figtree', system-ui, sans-serif;
+    --font-dm-mono: 'DM Mono', ui-monospace, monospace;
+    --font-libre-baskerville: 'Libre Baskerville', Georgia, serif;
+  }
+
+  #storybook-root {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+</style>

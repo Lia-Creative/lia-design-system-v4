@@ -1,0 +1,326 @@
+/* Lia Links — scoped overrides on top of the system defaults.
+
+   After the stage 1-5 design-system promotion, the system (globals.css
+   + Card primitive + Button primitive) now provides paper feel by
+   default — Olive neutrals, paper shadow scale, Figtree, Card scissor
+   cuts + tilt + grain, body desk grain, Button scissor + tilt. This
+   file only contains things that DIFFER from the system defaults:
+   per-version palette experiments, colour-mode palettes, v9 hover
+   swap, and bet-icon-specific rules (bet-icon isn't a system
+   primitive). */
+
+/* Desk-grain texture on the playground scope. body::before lives at
+   z-index: -1 inside body's stacking context; opaque ancestors above
+   the scope (Storybook's preview decorator and VersionTabs' bg shell)
+   hide it. So the scope owns its own ::before, mirroring the body
+   recipe but reading the scope's own --background, --paper-blend,
+   --paper-opacity, --paper-filter. */
+.playground-lia-links {
+  position: relative;
+  isolation: isolate;
+}
+
+.playground-lia-links::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/paper-texture.jpg');
+  background-size: 600px 600px;
+  background-repeat: repeat;
+  filter: var(--paper-filter, saturate(0) contrast(1.15));
+  mix-blend-mode: var(--paper-blend, multiply);
+  opacity: var(--paper-opacity, 0.55);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Dark-mode tweaks for the scope's desk grain — same recipe body uses
+   in dark mode (screen blend on an inverted-luminance texture so the
+   fibre specks read as light flecks on a dark desk instead of dark
+   smudges). */
+.dark .playground-lia-links::before {
+  filter: var(--paper-filter, saturate(0) contrast(1.15) invert(1));
+  mix-blend-mode: var(--paper-blend, screen);
+  opacity: var(--paper-opacity, 0.7);
+}
+
+/* v1 — baseline. System defaults apply: Olive paper, paper shadow,
+   scissor cuts via Card primitive's per-instance randomness, body
+   desk grain. (Empty block for placeholder.) */
+
+/* v2 — softer single-layer shadow than v5+ paper shadow. */
+.playground-lia-links--v2 [data-slot='card'] {
+  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+}
+
+/* v3 — tinted desk (Olive-100 — one Tailwind step darker than the
+   system default Olive-50). */
+.playground-lia-links--v3 {
+  --background: oklch(0.966 0.005 106.5); /* Tailwind Olive-100 */
+}
+
+.dark .playground-lia-links--v3 {
+  --background: oklch(0.228 0.013 107.4); /* Tailwind Olive-900 */
+}
+
+/* v4 — bg matches card. (System default already has bg = card, so v4
+   is effectively a no-op of the baseline. Kept for the comparison
+   ladder.) */
+
+/* v5+ shared — darker contact shadow on cards than the system shadow-sm.
+   Stage 2's system shadow-sm uses alpha 0.18/0.08; v5+ wants 0.22/0.08
+   for a more pronounced paper underline. */
+:is(
+  .playground-lia-links--v5,
+  .playground-lia-links--v6,
+  .playground-lia-links--v7,
+  .playground-lia-links--v8,
+  .playground-lia-links--v9
+) {
+  --shadow-sm:
+    0.5px 0.5px 1px 0 oklch(0.20 0.015 107 / 0.22),
+    1px 1.5px 2.5px -0.5px oklch(0.20 0.015 107 / 0.08);
+}
+
+/* v5 — Olive-25 card on Olive-75 desk (interpolated steps). */
+.playground-lia-links--v5 {
+  --card: oklch(0.994 0.002 106.5); /* Olive-25 */
+  --background: oklch(0.977 0.004 106.5); /* Olive-75 */
+}
+
+.dark .playground-lia-links--v5 {
+  --card: oklch(0.313 0.018 107.4); /* Olive-775 */
+  --background: oklch(0.272 0.015 107.4); /* Olive-825 */
+}
+
+/* v6 — Olive-0 card (extrapolated, near-white). Desk stays Olive-50
+   from the system default. */
+.playground-lia-links--v6 {
+  --card: oklch(0.999 0.002 106.5); /* Olive-0 */
+}
+
+.dark .playground-lia-links--v6 {
+  --card: oklch(0.286 0.016 107.4); /* Olive-800 */
+  --background: oklch(0.228 0.013 107.4); /* Olive-900 */
+}
+
+/* v7-light, v8-light, v9-light — Olive-0 card, same as v6 light. */
+:is(
+  .playground-lia-links--v7-light,
+  .playground-lia-links--v8-light,
+  .playground-lia-links--v9-light
+) {
+  --card: oklch(0.999 0.002 106.5);
+}
+
+/* v7-dark, v8-dark, v9-dark — explicit dark with stronger texture
+   opacity (0.9 vs system 0.7) and light foreground for AA legibility. */
+:is(
+  .playground-lia-links--v7-dark,
+  .playground-lia-links--v8-dark,
+  .playground-lia-links--v9-dark
+) {
+  --card: oklch(0.286 0.016 107.4); /* Olive-800 */
+  --background: oklch(0.228 0.013 107.4); /* Olive-900 */
+  --foreground: oklch(0.95 0.005 100);
+  --muted-foreground: oklch(0.72 0.005 100);
+  --paper-blend: screen;
+  --paper-opacity: 0.9;
+  --paper-filter: saturate(0) contrast(1.15) invert(1);
+}
+
+/* v7-colour — Purple-400 desk + three coloured papers (Blue/Amber/
+   off-black). */
+.playground-lia-links--v7-colour {
+  --background: oklch(0.714 0.203 305.504); /* Purple-400 */
+  --foreground: oklch(0.10 0.005 100); /* hard near-black for AA */
+  --muted-foreground: oklch(0.22 0.005 100);
+}
+
+.playground-lia-links--v7-colour [data-slot='card']:nth-child(1) {
+  --card: oklch(0.882 0.059 254.128); /* Blue-200 */
+}
+
+.playground-lia-links--v7-colour [data-slot='card']:nth-child(2) {
+  --card: oklch(0.828 0.189 84.429); /* Amber-400 */
+}
+
+.playground-lia-links--v7-colour [data-slot='card']:nth-child(3) {
+  --card: oklch(0.22 0.010 100); /* off-black paper */
+  --foreground: oklch(0.97 0.005 100);
+  --muted-foreground: oklch(0.78 0.005 100);
+  --paper-blend: screen;
+  --paper-opacity: 0.85;
+  --paper-filter: saturate(0) contrast(1.15) invert(1);
+}
+
+/* v8-colour — Amber-400 desk (warm yellow) with Blue/Purple/off-black
+   cards. */
+.playground-lia-links--v8-colour {
+  --background: oklch(0.828 0.189 84.429); /* Amber-400 */
+  --foreground: oklch(0.10 0.005 100);
+  --muted-foreground: oklch(0.22 0.005 100);
+}
+
+.playground-lia-links--v8-colour [data-slot='card']:nth-child(1) {
+  --card: oklch(0.882 0.059 254.128); /* Blue-200 */
+}
+
+.playground-lia-links--v8-colour [data-slot='card']:nth-child(2) {
+  --card: oklch(0.827 0.119 306.383); /* Purple-300 */
+}
+
+.playground-lia-links--v8-colour [data-slot='card']:nth-child(3) {
+  --card: oklch(0.22 0.010 100);
+  --foreground: oklch(0.97 0.005 100);
+  --muted-foreground: oklch(0.78 0.005 100);
+  --paper-blend: screen;
+  --paper-opacity: 0.85;
+  --paper-filter: saturate(0) contrast(1.15) invert(1);
+}
+
+/* v9-colour — same palette as v7-colour. (v9's differentiator vs v7 is
+   the light/dark hover swap, not the colour palette.) */
+.playground-lia-links--v9-colour {
+  --background: oklch(0.714 0.203 305.504); /* Purple-400 */
+  --foreground: oklch(0.10 0.005 100);
+  --muted-foreground: oklch(0.22 0.005 100);
+}
+
+.playground-lia-links--v9-colour [data-slot='card']:nth-child(1) {
+  --card: oklch(0.882 0.059 254.128);
+}
+
+.playground-lia-links--v9-colour [data-slot='card']:nth-child(2) {
+  --card: oklch(0.828 0.189 84.429);
+}
+
+.playground-lia-links--v9-colour [data-slot='card']:nth-child(3) {
+  --card: oklch(0.22 0.010 100);
+  --foreground: oklch(0.97 0.005 100);
+  --muted-foreground: oklch(0.78 0.005 100);
+  --paper-blend: screen;
+  --paper-opacity: 0.85;
+  --paper-filter: saturate(0) contrast(1.15) invert(1);
+}
+
+/* Cream paper-tone avatar in colour modes — system tones (primary,
+   accent, secondary) read muddy/camouflaged on saturated card colours. */
+:is(
+  .playground-lia-links--v7-colour,
+  .playground-lia-links--v8-colour,
+  .playground-lia-links--v9-colour
+)
+  [data-slot='bet-icon'] {
+  background-color: oklch(0.97 0.005 100);
+  color: oklch(0.20 0.005 100);
+}
+
+/* v9 — light/dark hover swap. Light: card flips to --secondary (Lia
+   sky blue). Dark: card flips to --accent (Lia yellow). Inline --card
+   in colour mode wins over these via specificity. */
+:is(.playground-lia-links--v9-light, .playground-lia-links--v9-dark)
+  [data-slot='card'] {
+  transition-property: box-shadow, transform, background-color, color;
+}
+
+.playground-lia-links--v9-light [data-slot='card']:hover {
+  --card: var(--secondary);
+  --foreground: var(--secondary-foreground);
+  --muted-foreground: var(--secondary-foreground);
+}
+
+.playground-lia-links--v9-dark [data-slot='card']:hover {
+  --card: var(--accent);
+  --foreground: var(--accent-foreground);
+  --muted-foreground: var(--accent-foreground);
+}
+
+/* Compound-rotation reset — a button or theme toggle nested inside a
+   card stays flat (the card already carries the tilt). Bet-icon
+   avatars are deliberately excluded so they tilt on top of the card's
+   tilt, like stickers at their own angle. */
+:is(
+  .playground-lia-links--v3,
+  .playground-lia-links--v4,
+  .playground-lia-links--v5,
+  .playground-lia-links--v6,
+  .playground-lia-links--v7,
+  .playground-lia-links--v8,
+  .playground-lia-links--v9
+)
+  [data-slot='card']
+  :is([data-slot='button'], [data-slot='theme-toggle']) {
+  rotate: 0deg;
+}
+
+/* Bet-icon (avatar) is a playground-specific element. The system
+   doesn't know about it. Each avatar gets its own scissor radius,
+   subtle sticker shadow, paper-grain texture, and tilt. */
+:is(
+  .playground-lia-links--v4,
+  .playground-lia-links--v5,
+  .playground-lia-links--v6,
+  .playground-lia-links--v7,
+  .playground-lia-links--v8,
+  .playground-lia-links--v9
+)
+  [data-slot='bet-icon'] {
+  rotate: var(--surface-tilt, 0deg);
+  transform-origin: center center;
+  box-shadow:
+    0.5px 0.5px 1px 0 oklch(0.20 0.015 107 / 0.10),
+    1px 1px 2px -0.5px oklch(0.20 0.015 107 / 0.05);
+}
+
+.dark
+  :is(
+    .playground-lia-links--v4,
+    .playground-lia-links--v5,
+    .playground-lia-links--v6,
+    .playground-lia-links--v7,
+    .playground-lia-links--v8,
+    .playground-lia-links--v9
+  )
+  [data-slot='bet-icon'] {
+  box-shadow:
+    0.5px 0.5px 1px 0 oklch(0 0 0 / 0.40),
+    1px 1px 2px -0.5px oklch(0 0 0 / 0.24);
+}
+
+/* v5+ bet-icon — scissor-cut sticker radius + paper-grain texture. */
+:is(
+  .playground-lia-links--v5,
+  .playground-lia-links--v6,
+  .playground-lia-links--v7,
+  .playground-lia-links--v8,
+  .playground-lia-links--v9
+)
+  [data-slot='bet-icon'] {
+  border-radius: var(--icon-radius, var(--radius-lg));
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+:is(
+  .playground-lia-links--v5,
+  .playground-lia-links--v6,
+  .playground-lia-links--v7,
+  .playground-lia-links--v8,
+  .playground-lia-links--v9
+)
+  [data-slot='bet-icon']::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('./assets/paper-texture.jpg');
+  background-size: 600px 600px;
+  background-repeat: repeat;
+  background-position: var(--paper-offset, 0 0);
+  filter: var(--paper-filter, saturate(0) contrast(1.15));
+  mix-blend-mode: var(--paper-blend, multiply);
+  opacity: var(--paper-opacity, 0.55);
+  pointer-events: none;
+  z-index: -1;
+}

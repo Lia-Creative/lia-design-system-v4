@@ -1,0 +1,52 @@
+/*
+ * Scoped token overrides for the Welcome prototype.
+ *
+ * Anything under `.playground-welcome` only applies inside the prototype's
+ * wrapper div — not to other prototypes, not to the production app. At
+ * /design-review you decide which (if any) to backport to globals.css.
+ *
+ * Welcome uses the global defaults for tokens; the only thing here is the
+ * desk-grain ::before (see below), which every PrototypeShell-based prototype
+ * needs so the desk gets paper texture in colour mode.
+ */
+
+/*
+ * Desk-grain texture on the playground scope.
+ *
+ * body::before paints the page-wide grain, but the shell's scope div has its
+ * own background (and an opaque tinted background in colour mode), so it covers
+ * body::before. The scope therefore owns its own ::before, mirroring the body
+ * recipe but reading the scope's own --paper-* vars — which the shell sets
+ * inline per colour-mode paper. Light/dark fall back to the defaults here.
+ */
+.playground-welcome::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url('/paper-texture.jpg');
+  background-size: 600px 600px;
+  background-repeat: repeat;
+  filter: var(--paper-filter, saturate(0) contrast(1.15));
+  mix-blend-mode: var(--paper-blend, multiply);
+  opacity: var(--paper-opacity, 0.55);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Keep the grain behind in-flow content. The scope div is `relative`, so a
+   z-index:0 ::before sits at the base of its stacking context and content
+   (which creates its own boxes) paints above. */
+.playground-welcome > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Dark mode: invert + screen-blend the grain so it shows as subtle light
+   specks on the dark desk instead of darkening it. The shell adds the `dark`
+   class to the scope div itself, so target the scope directly (not a
+   descendant of .dark). */
+.playground-welcome--v1-dark {
+  --paper-blend: screen;
+  --paper-opacity: 0.7;
+  --paper-filter: saturate(0) contrast(1.15) invert(1);
+}

@@ -1,0 +1,18 @@
+{
+  "codeConnect": {
+    "include": ["src/components/**/*", "src/figma/**/*"],
+    "exclude": ["src/components/ui/*.stories.tsx"],
+    "parser": "react",
+    "importPaths": {
+      "components/ui/*": "@/components/ui",
+      "lib/*": "@/lib"
+    },
+    "paths": {
+      "@/components/ui": ["src/components/ui"],
+      "@/lib": ["src/lib"]
+    },
+    "documentUrlSubstitutions": {
+      "<FIGMA_FILE>": "https://www.figma.com/design/0b2h7j9vYI2mnW9ARPjour/Lia-Design-System--shadcn-studio-"
+    }
+  }
+}

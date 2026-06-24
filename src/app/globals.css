@@ -1,0 +1,486 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ============================================================
+   v4 FONTS — Klim (test licence; swap to full licence before launch).
+   Self-hosted woff2 in /public/fonts. Declared here (not next/font) so they
+   load app-wide AND in Storybook (both import globals.css).
+   Martina Plantijn = serif/display voice · Söhne = sans/UI · Söhne Mono = mono.
+   ============================================================ */
+@font-face { font-family: "Martina Plantijn"; src: url("/fonts/test-martina-plantijn-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Martina Plantijn"; src: url("/fonts/test-martina-plantijn-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Martina Plantijn"; src: url("/fonts/test-martina-plantijn-medium.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Martina Plantijn"; src: url("/fonts/test-martina-plantijn-bold.woff2") format("woff2"); font-weight: 700; font-style: normal; font-display: swap; }
+@font-face { font-family: "Sohne"; src: url("/fonts/test-soehne-buch.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Sohne"; src: url("/fonts/test-soehne-buch-kursiv.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Sohne"; src: url("/fonts/test-soehne-kraftig.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+@font-face { font-family: "Sohne"; src: url("/fonts/test-soehne-halbfett.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Sohne Mono"; src: url("/fonts/test-soehne-mono-buch.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Sohne Mono"; src: url("/fonts/test-soehne-mono-kraftig.woff2") format("woff2"); font-weight: 500; font-style: normal; font-display: swap; }
+
+:root {
+  /* ============================================================
+     PRIMITIVES — the ONLY place colours are authored as literals.
+     Semantic tokens below reference these via var(); never inline a
+     raw oklch into a semantic token. Mirrors the Figma `colors/*`
+     ramps (olive = colors/olive/*, brand = colors/lia-*). Keep the
+     two in sync: a value change here is a value change in the ramp.
+     ============================================================ */
+
+  /* v4 NEUTRAL ramp. Warm cream at the light end (anchored to Uneevo #F2F0EB),
+     warm-charcoal at the dark end (Claude-dark direction). Hue ~89 (warm
+     yellow, NOT the green-ish 107 of v3 olive) at the light steps, shifting to
+     ~52–57 at the dark steps; chroma kept very low so it reads clean-warm,
+     never muddy. (Name kept as --olive-* for now; rename to --neutral-* is a
+     later refactor.) Mirrors Figma colors/olive/*. */
+  --olive-50: oklch(0.978 0.006 89); /* lightest warm white — cards / raised */
+  --olive-100: oklch(0.957 0.007 89); /* cream — page background (Uneevo #F2F0EB) */
+  --olive-200: oklch(0.922 0.008 89); /* borders, muted */
+  --olive-300: oklch(0.85 0.009 89);
+  --olive-400: oklch(0.712 0.009 88);
+  --olive-500: oklch(0.578 0.009 86); /* muted-foreground */
+  --olive-600: oklch(0.486 0.009 84);
+  --olive-700: oklch(0.371 0.006 57); /* dark border */
+  --olive-800: oklch(0.269 0.0065 56); /* dark card */
+  --olive-900: oklch(0.205 0.005 55); /* warm charcoal — dark bg / light ink */
+  --olive-950: oklch(0.145 0.004 52);
+
+  /* Lia brand ramps — bespoke (NOT Tailwind). Mirror Figma colors/lia-*.
+     Step numbers track lightness (lower = lighter), Tailwind-style. */
+  --lia-blue-500: oklch(0.59 0.22 265.28); /* #3c6efd — brand blue, dark-mode */
+  --lia-blue-600: oklch(0.50 0.27 263.51); /* #0044f9 — brand blue, light-mode */
+  --lia-sky-200: oklch(0.87 0.05 228.95); /* #b3dbef — secondary, dark-mode */
+  --lia-sky-300: oklch(0.85 0.06 236.34); /* #a9d5f0 — secondary, light-mode */
+  --lia-yellow-200: oklch(0.97 0.13 106.79); /* #fffb90 — accent */
+  --lia-red-500: oklch(0.64 0.21 25.33); /* #f14444 — destructive, dark-mode */
+  --lia-red-600: oklch(0.58 0.22 27.33); /* #df2224 — destructive, light-mode */
+
+  /* v4 expressive accent palette — reserved colour, used for chips, tags,
+     status, illustration and charts (NOT as CTAs; blue is the only CTA). */
+  --lia-orange: oklch(0.705 0.213 47.6); /* #f97316 */
+  --lia-magenta: oklch(0.66 0.19 322); /* #c663d6 — muted */
+  --lia-gold: oklch(0.852 0.199 91.94); /* #facc15 */
+  --lia-brick: oklch(0.505 0.19 27.3); /* #b91c1c — warm editorial accent */
+  --lia-pink: oklch(0.833 0.123 327.5); /* #f0abfc — soft */
+  --lia-sky: oklch(0.901 0.058 230.9); /* #bae6fd — soft */
+  --lia-pale: oklch(0.957 0.106 102.5); /* #fef08a — soft */
+
+  /* ============================================================
+     SEMANTIC TOKENS — light mode. Reference primitives only.
+     ============================================================ */
+  --background: var(--olive-100); /* cream desk — just off the lightest base (50) */
+  --foreground: var(--olive-900);
+  --card: var(--olive-50); /* lighter base — lifts off the desk */
+  --card-foreground: var(--olive-900);
+  --popover: var(--olive-50);
+  --popover-foreground: var(--olive-900);
+  --primary: var(--lia-blue-600);
+  --primary-foreground: var(--olive-50);
+  --secondary: var(--lia-sky-300);
+  --secondary-foreground: var(--olive-900);
+  --muted: var(--olive-200); /* Olive-200 (not 100) so ghost/outline hover steps perceptibly on Olive-50 surfaces, matching the dark lift */
+  --muted-foreground: var(--olive-500);
+  --accent: var(--lia-yellow-200);
+  --accent-foreground: var(--olive-900);
+  --destructive: var(--lia-red-600);
+  --border: var(--olive-200);
+  --input: var(--olive-200);
+  --ring: var(--lia-blue-600);
+  --chart-1: var(--lia-blue-600);
+  --chart-2: var(--lia-orange);
+  --chart-3: var(--lia-magenta);
+  --chart-4: var(--lia-gold);
+  --chart-5: var(--lia-sky);
+  --sidebar: var(--olive-100);
+  --sidebar-foreground: var(--olive-900);
+  --sidebar-primary: var(--lia-blue-600);
+  --sidebar-primary-foreground: var(--olive-50);
+  --sidebar-accent: var(--lia-yellow-200);
+  --sidebar-accent-foreground: var(--olive-900);
+  --sidebar-border: var(--olive-200);
+  --sidebar-ring: var(--lia-blue-600);
+
+  /* v4 type: Söhne = sans/UI, Martina Plantijn = serif/voice, Söhne Mono = mono */
+  --font-sans: "Sohne", "Figtree", system-ui, sans-serif;
+  --font-serif: "Martina Plantijn", "Libre Baskerville", Georgia, serif;
+  --font-mono: "Sohne Mono", "DM Mono", ui-monospace, monospace;
+
+  --radius: 0.9rem; /* v4 — friendlier geometry (up from v3's 0.375rem) */
+
+  /* Paper shadow scale. Contact layer stays tight at every level (paper
+     edge meets surface); ambient/diffuse layer scales from xs to 2xl.
+     Light-source bias toward lower-right (small x-axis offset). Tinted
+     dark-olive in light mode. */
+  --shadow-2xs: 0.5px 0.5px 1px 0 oklch(0.20 0.015 107 / 0.10);
+  --shadow-xs:
+    0.5px 0.5px 1px 0 oklch(0.20 0.015 107 / 0.15),
+    1px 1px 2px -0.5px oklch(0.20 0.015 107 / 0.05);
+  --shadow-sm:
+    0.5px 1px 1.5px 0 oklch(0.20 0.015 107 / 0.18),
+    1px 2px 3px -0.5px oklch(0.20 0.015 107 / 0.08);
+  --shadow:
+    0.5px 1px 1.5px 0 oklch(0.20 0.015 107 / 0.22),
+    1px 2px 4px -1px oklch(0.20 0.015 107 / 0.10);
+  --shadow-md:
+    0.5px 1.5px 2px 0 oklch(0.20 0.015 107 / 0.25),
+    1.5px 3px 5px -1px oklch(0.20 0.015 107 / 0.12);
+  --shadow-lg:
+    1px 2px 3px 0 oklch(0.20 0.015 107 / 0.25),
+    2px 4px 8px -2px oklch(0.20 0.015 107 / 0.14);
+  --shadow-xl:
+    1px 3px 4px 0 oklch(0.20 0.015 107 / 0.28),
+    2px 6px 12px -3px oklch(0.20 0.015 107 / 0.16);
+  --shadow-2xl:
+    1px 4px 6px 0 oklch(0.20 0.015 107 / 0.30),
+    3px 10px 20px -4px oklch(0.20 0.015 107 / 0.20);
+}
+
+.dark {
+  /* Semantic tokens — dark mode. Reference primitives only (defined in
+     :root above; CSS custom properties inherit, so they resolve here). */
+  --background: var(--olive-900); /* desk */
+  --foreground: var(--olive-50);
+  --card: var(--olive-800); /* paper */
+  --card-foreground: var(--olive-50);
+  --popover: var(--olive-800);
+  --popover-foreground: var(--olive-50);
+  --primary: var(--lia-blue-500);
+  --primary-foreground: var(--olive-900);
+  --secondary: var(--lia-sky-200);
+  --secondary-foreground: var(--olive-900);
+  --muted: var(--olive-800);
+  --muted-foreground: var(--olive-400);
+  --accent: var(--olive-700); /* dark-mode hover surface */
+  --accent-foreground: var(--olive-50); /* light text on hover surface */
+  --destructive: var(--lia-red-500);
+  --border: var(--olive-700);
+  --input: var(--olive-700);
+  --ring: var(--lia-blue-500);
+  --chart-1: var(--lia-blue-500);
+  --chart-2: oklch(0.75 0.18 50); /* orange — lifted for dark */
+  --chart-3: oklch(0.72 0.17 322); /* magenta — lifted */
+  --chart-4: oklch(0.88 0.17 92); /* gold — lifted */
+  --chart-5: oklch(0.86 0.09 230); /* sky — lifted */
+  --sidebar: var(--olive-900);
+  --sidebar-foreground: var(--olive-50);
+  --sidebar-primary: var(--lia-blue-500);
+  --sidebar-primary-foreground: var(--olive-900);
+  --sidebar-accent: var(--olive-700); /* dark-mode hover surface */
+  --sidebar-accent-foreground: var(--olive-50); /* light text */
+  --sidebar-border: var(--olive-700);
+  --sidebar-ring: var(--lia-blue-500);
+
+  /* Dark mode shadow scale — pure-black with higher alpha since the
+     dark surface absorbs more shadow before it registers. Same scaling
+     curve as light mode. */
+  --shadow-2xs: 0.5px 0.5px 1px 0 oklch(0 0 0 / 0.30);
+  --shadow-xs:
+    0.5px 0.5px 1px 0 oklch(0 0 0 / 0.40),
+    1px 1px 2px -0.5px oklch(0 0 0 / 0.15);
+  --shadow-sm:
+    0.5px 1px 1.5px 0 oklch(0 0 0 / 0.45),
+    1px 2px 3px -0.5px oklch(0 0 0 / 0.20);
+  --shadow:
+    0.5px 1px 1.5px 0 oklch(0 0 0 / 0.50),
+    1px 2px 4px -1px oklch(0 0 0 / 0.25);
+  --shadow-md:
+    0.5px 1.5px 2px 0 oklch(0 0 0 / 0.55),
+    1.5px 3px 5px -1px oklch(0 0 0 / 0.30);
+  --shadow-lg:
+    1px 2px 3px 0 oklch(0 0 0 / 0.55),
+    2px 4px 8px -2px oklch(0 0 0 / 0.35);
+  --shadow-xl:
+    1px 3px 4px 0 oklch(0 0 0 / 0.60),
+    2px 6px 12px -3px oklch(0 0 0 / 0.40);
+  --shadow-2xl:
+    1px 4px 6px 0 oklch(0 0 0 / 0.65),
+    3px 10px 20px -4px oklch(0 0 0 / 0.50);
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --font-sans: var(--font-sans);
+  --font-mono: var(--font-mono);
+  --font-serif: var(--font-serif);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --shadow-2xs: var(--shadow-2xs);
+  --shadow-xs: var(--shadow-xs);
+  --shadow-sm: var(--shadow-sm);
+  --shadow: var(--shadow);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-xl: var(--shadow-xl);
+  --shadow-2xl: var(--shadow-2xl);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+    position: relative;
+    isolation: isolate;
+  }
+  /* ── v4 TYPE SYSTEM ───────────────────────────────────────────────────
+     Martina is the VOICE, Söhne is the INTERFACE.
+       H1/H2/H4 + display + body (medium/small) → Martina (serif, the default)
+       H3/H5/H6 + large body + all functional UI chrome → Söhne (sans)
+     Default is the serif; Söhne is the exception, assigned below. */
+  html {
+    font-family: var(--font-serif);
+    font-feature-settings: "ss01";
+  }
+
+  /* Söhne — functional chrome + the sans-level headings + large body */
+  h3, h5, .t-h3, .t-h5, .t-body-lg, .uppercase, nav,
+  [data-slot="button"], [data-slot="theme-toggle"], [data-slot="badge"],
+  [data-slot="input"], [data-slot="textarea"], [data-slot="label"],
+  [data-slot="select-trigger"], [data-slot="select-item"],
+  [data-slot="tabs-list"], [data-slot="tabs-trigger"],
+  [data-slot="card-title"], [data-slot="avatar-fallback"],
+  [data-slot="avatar-group-count"], [data-slot="table"],
+  [data-slot="table-head"], [data-slot="table-cell"],
+  h6, .t-h6 {
+    font-family: var(--font-sans);
+  }
+
+  /* Martina heading levels — family inherited; tracking only */
+  h1, h2, h4, .t-display, .t-h1, .t-h2, .t-h4 {
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+  .t-display, h1 { letter-spacing: -0.025em; line-height: 1.02; }
+  h3, h5, .t-h3, .t-h5 { letter-spacing: -0.005em; }
+
+  /* Pull-quotes / blockquotes are ALWAYS the Martina voice */
+  blockquote, .pullquote { font-family: var(--font-serif) !important; }
+
+  /* Optional full-Söhne functional surface; section title stays Martina */
+  .surface-ui { font-family: var(--font-sans); }
+  .surface-ui h1, .surface-ui h2, .surface-ui h4,
+  .surface-ui .t-display, .surface-ui .t-h1, .surface-ui .t-h2,
+  .surface-ui .t-h4 { font-family: var(--font-serif); }
+
+  /* UI type scale (15 / 13 / 12 / 11) lives in the component cva variants —
+     the native place, since components set their own text-* utilities. Only
+     non-component bits live here: nav links, and the .surface-ui opt-in that
+     shrinks generic body utilities inside a fully-dense surface. */
+  nav a { font-size: 0.8125rem; }
+  .surface-ui .text-base { font-size: 0.875rem; }
+  .surface-ui .text-sm { font-size: 0.8125rem; }
+  .surface-ui .text-xs { font-size: 0.6875rem; }
+
+  /* Söhne is a grotesque — a hair of positive tracking at small UI sizes.
+     (Buttons/inputs carry their own tracking in the cva; this covers the rest.) */
+  [data-slot="tabs-trigger"], [data-slot="table-cell"],
+  [data-slot="table-head"], [data-slot="label"], nav a {
+    letter-spacing: 0.005em;
+  }
+
+  /* Paper texture tokens — defaults the body + Card ::before overlays
+     read. Per-surface inline overrides win via specificity. */
+  body {
+    --paper-blend: multiply;
+    --paper-opacity: 0.55;
+    --paper-filter: saturate(0) contrast(1.15);
+  }
+
+  .dark body {
+    --paper-blend: screen;
+    --paper-opacity: 0.7;
+    --paper-filter: saturate(0) contrast(1.15) invert(1);
+  }
+
+  /* Page-wide desk grain. Fixed-positioned so the texture stays put as
+     content scrolls (desks don't scroll). Multiplies onto body's bg in
+     light mode; in dark mode the texture is inverted + screen-blended
+     so the bg stays dark and the fiber spots show as subtle light
+     specks. Pointer-events disabled so it never intercepts clicks. */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url('/paper-texture.jpg');
+    background-size: 600px 600px;
+    background-repeat: repeat;
+    filter: var(--paper-filter);
+    mix-blend-mode: var(--paper-blend);
+    opacity: var(--paper-opacity);
+    pointer-events: none;
+    /* z-index -1 puts the texture behind in-flow content within body's
+       isolated stacking context, so we don't need a separate `body > *`
+       rule (which would break absolute-positioned children like
+       stretched-link anchors). */
+    z-index: -1;
+  }
+}
+
+@layer components {
+  /* Paper-grain treatment for every Card. The Card primitive sets the
+     inline CSS variables (--surface-tilt, --card-radius, --paper-offset)
+     via useState lazy-init so each instance gets its own randomness. */
+  [data-slot='card'] {
+    position: relative;
+    isolation: isolate;
+    border-radius: var(--card-radius, 3px);
+    rotate: var(--surface-tilt, 0deg);
+    transform-origin: center center;
+  }
+
+  [data-slot='card']::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/paper-texture.jpg');
+    background-size: 600px 600px;
+    background-repeat: repeat;
+    background-position: var(--paper-offset, 0 0);
+    filter: var(--paper-filter);
+    mix-blend-mode: var(--paper-blend);
+    opacity: var(--paper-opacity);
+    pointer-events: none;
+    /* z-index -1 inside the Card's isolated stacking context. Content
+       paints above this naturally without needing to touch `position`
+       on each child (which would break absolute-positioned children
+       like the stretched-link anchor pattern). */
+    z-index: -1;
+  }
+
+  /* Flat opt-out for Cards where paper feel would be wrong (data viz,
+     dense lists, etc.). Pass `data-paper="flat"` to the Card. */
+  [data-slot='card'][data-paper='flat'] {
+    border-radius: var(--radius-xl);
+    rotate: 0deg;
+  }
+
+  [data-slot='card'][data-paper='flat']::before {
+    display: none;
+  }
+
+  /* Paper feel on Buttons (and ThemeToggle, which is a Button with
+     data-slot="theme-toggle" replacing data-slot="button") — scissor-
+     cut radius + subtle tilt. Texture overlay was tried and dropped:
+     multiply against dark saturated variants didn't register; invert
+     ruined the destructive variant's tone. May revisit with a
+     different recipe later. */
+  [data-slot='button'],
+  [data-slot='theme-toggle'] {
+    border-radius: var(--button-radius, 0.5rem);
+    rotate: var(--surface-tilt, 0deg);
+    transform-origin: center center;
+  }
+
+  /* Opt-out for Buttons/Toggles that need to be flat (toolbars where
+     all buttons should align, etc.). */
+  [data-slot='button'][data-paper='flat'],
+  [data-slot='theme-toggle'][data-paper='flat'] {
+    border-radius: var(--radius-lg);
+    rotate: 0deg;
+  }
+}
+
+/* ============================================================
+   v4 SHAPE LANGUAGE — soft & still, squircle, pill primary.
+   Unlayered so it overrides v3's paper tilt + jagged radius above.
+   corner-shape: squircle is Chromium-only (graceful rounded fallback
+   in Safari/Firefox) — decided 2026-06-24.
+   ============================================================ */
+[data-slot="button"],
+[data-slot="theme-toggle"],
+[data-slot="card"],
+[data-slot="alert"],
+[data-slot="input"],
+[data-slot="select-trigger"],
+[data-slot="dialog-content"],
+[data-slot="popover-content"],
+[data-slot="tabs-list"],
+.squircle {
+  corner-shape: squircle;
+  rotate: 0deg; /* kill the v3 paper tilt — v4 is soft & still */
+}
+
+[data-slot="card"] {
+  border-radius: 1.4rem;
+}
+/* dense-data surfaces (tables) get tighter corners than editorial cards */
+[data-slot="card"].card-tight {
+  border-radius: 0.625rem;
+}
+[data-slot="button"],
+[data-slot="theme-toggle"],
+[data-slot="input"],
+[data-slot="select-trigger"] {
+  border-radius: 0.85rem;
+}
+
+/* PILL: the primary (filled brand-blue) button only. Supporting buttons
+   (outline / ghost / secondary) keep the squircle — the pill IS the signal. */
+[data-slot="button"].bg-primary {
+  border-radius: 9999px;
+  corner-shape: round;
+}
+
+/* soften the v3 paper grain on cards in v4 — cleaner surface */
+[data-slot="card"]::before {
+  opacity: 0.28;
+}
+
+/* Mobile (<640px): scale the soft corners down ~30% so they don't dominate
+   small surfaces; primary pills stay pills. */
+@media (max-width: 640px) {
+  [data-slot="card"] {
+    border-radius: 1rem;
+  }
+  [data-slot="card"].card-tight {
+    border-radius: 0.5rem;
+  }
+  [data-slot="button"],
+  [data-slot="theme-toggle"],
+  [data-slot="input"],
+  [data-slot="select-trigger"] {
+    border-radius: 0.6rem;
+  }
+  [data-slot="button"].bg-primary {
+    border-radius: 9999px;
+  }
+}

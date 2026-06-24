@@ -1,0 +1,17 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "lia-ds-v3",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["dev"],
+      "port": 3000
+    },
+    {
+      "name": "lia-ds-v3-storybook",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["storybook", "--ci"],
+      "port": 6006
+    }
+  ]
+}

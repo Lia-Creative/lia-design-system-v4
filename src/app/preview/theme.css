@@ -1,0 +1,507 @@
+/*
+ * v4 brand scope for the theme-preview route.
+ *
+ * Same sandbox principle as the playground tokens.css pattern: nothing here
+ * touches globals.css. Everything is scoped to `.brand-v4` (the page wrapper),
+ * so this is a safe place to evolve the v4 look. At /design-review the approved
+ * pieces graduate into globals.css as the real v4 cut.
+ *
+ * Currently in here:
+ *   1. Klim test fonts (Martina Plantijn + Söhne) via @font-face.
+ *   2. The v4 type system (level → family mapping per Dan's brief).
+ *   3. Squircle / soft-corner shape language.
+ *   4. Colours: UNCHANGED for now — we keep the current v3 brand ramps and
+ *      evolve from there. The ratio display reads the live semantic tokens.
+ */
+
+/* ── 1. Fonts (Klim test licence — local woff2 in /public/fonts) ─────────── */
+
+@font-face {
+  font-family: "Martina Plantijn";
+  src: url("/fonts/test-martina-plantijn-regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Martina Plantijn";
+  src: url("/fonts/test-martina-plantijn-italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Martina Plantijn";
+  src: url("/fonts/test-martina-plantijn-medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Martina Plantijn";
+  src: url("/fonts/test-martina-plantijn-bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sohne";
+  src: url("/fonts/test-soehne-buch.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sohne";
+  src: url("/fonts/test-soehne-buch-kursiv.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sohne";
+  src: url("/fonts/test-soehne-kraftig.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sohne";
+  src: url("/fonts/test-soehne-halbfett.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Sohne Mono";
+  src: url("/fonts/test-soehne-mono-buch.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Sohne Mono";
+  src: url("/fonts/test-soehne-mono-kraftig.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ── 1b. Neutral exploration — warm the olive ────────────────────────────
+ * v3's neutral is olive (hue ~107) with mid chroma — reads green & muddy.
+ * v4 explores a warm near-neutral: hue pulled down to ~70–90 (warm, not
+ * green) and chroma dropped hard (~0.004–0.007) so it reads as a clean warm
+ * grey. Light end = eggshell off-white; dark end = warm near-black (not muddy,
+ * not pure black) — the Granola-dark / Uneevo-off-white direction.
+ *
+ * We override the --olive-* PRIMITIVES inside the scope; every semantic token
+ * aliases them, so background/card/muted/border all shift automatically. (At
+ * graduation this ramp gets renamed off "olive".) FIRST PASS — easy to tune.
+ */
+.brand-v4 {
+  /* Anchored to Uneevo's warm off-white #F2F0EB = oklch(0.955 0.007 89).
+     Hue LOCKED at 89 (warm yellow — not the green-ish 107 of v3 olive), low
+     chroma so it reads as a clean warm cream, never muddy. 50 is the base
+     surface (no hard white anywhere); 900/950 are a warm near-black. */
+  --olive-50: oklch(0.978 0.006 89); /* lightest warm white — cards / raised surfaces */
+  --olive-100: oklch(0.957 0.007 89); /* Uneevo cream #F2F0EB — page background (just off the base) */
+  --olive-200: oklch(0.922 0.008 89); /* borders, muted */
+  --olive-300: oklch(0.85 0.009 89);
+  --olive-400: oklch(0.712 0.009 88);
+  --olive-500: oklch(0.578 0.009 86); /* muted-foreground */
+  --olive-600: oklch(0.486 0.009 84);
+  /* Dark steps = Tailwind `neutral` scale (pure grey, chroma 0). The custom
+     warm oklch read too orange next to Claude; this is the restrained,
+     Claude-like dark with no warm/green cast. Light end stays the Uneevo cream. */
+  /* Whisper-warm dark: halfway between pure Tailwind neutral (chroma 0, which
+     read too cold) and the earlier warm-charcoal (0.004, too warm). Chroma
+     ~0.0025 at hue ~56 — a hint of warmth, still reads as a clean charcoal. */
+  --olive-700: oklch(0.371 0.006 57); /* dark border */
+  --olive-800: oklch(0.269 0.0065 56); /* dark card */
+  --olive-900: oklch(0.205 0.005 55); /* dark bg / light ink — warm charcoal (0.005) */
+  --olive-950: oklch(0.145 0.004 52);
+}
+
+/* Light mode only: the desk is the cream (100), one step off the lightest base
+   (50), so cards/popovers (which alias 50) lift off the background. Scoped to
+   :not(.dark) so it never overrides the dark background. */
+html:not(.dark) .brand-v4 {
+  /* Re-declare every olive-dependent semantic ON the scope so it re-resolves
+     against the warm primitives (globals declares these on :root, where var()
+     resolved against the ORIGINAL olive — descendants don't re-evaluate). */
+  --background: var(--olive-100); /* cream desk */
+  --foreground: var(--olive-900);
+  --card: var(--olive-50); /* lighter — lifts off desk */
+  --card-foreground: var(--olive-900);
+  --popover: var(--olive-50);
+  --popover-foreground: var(--olive-900);
+  --primary-foreground: var(--olive-50);
+  --secondary-foreground: var(--olive-900);
+  --muted: var(--olive-200);
+  --muted-foreground: var(--olive-500);
+  --accent-foreground: var(--olive-900);
+  --border: var(--olive-200);
+  --input: var(--olive-200);
+  --sidebar: var(--olive-100);
+  --sidebar-foreground: var(--olive-900);
+  --sidebar-primary-foreground: var(--olive-50);
+  --sidebar-accent-foreground: var(--olive-900);
+  --sidebar-border: var(--olive-200);
+}
+
+/* THE OLIVE LEAK FIX: <body> and <html> live OUTSIDE .brand-v4, so they still
+   carry the original olive --background from globals.css. On overscroll / any
+   gap that olive shows through. theme.css applies document-wide on this route,
+   so neutralise the body+html background to the v4 surface directly. */
+html,
+body {
+  background-color: #f3f1ec; /* v4 cream desk (olive-100) */
+}
+html.dark,
+html.dark body {
+  background-color: #191715; /* v4 warm dark desk (olive-900, 0.005) */
+}
+
+/* ── 2. Type system ──────────────────────────────────────────────────────
+ * Brief mapping:
+ *   H0/H1 → Martina Plantijn (tighter tracking)   H2 → Martina
+ *   H3    → Söhne                                  H4 → Martina
+ *   H5    → Söhne                                  H6 → Martina
+ *   Body large → Söhne          Body medium/small → Martina
+ *
+ * Live page default is Söhne (UI chrome: nav, buttons, inputs, labels read
+ * cleaner in the grotesque). Headings + the explicit body classes below carry
+ * the serif per spec. The type-specimen section demonstrates the full mapping
+ * literally. NOTE: serif at small body sizes is the brief's signature bet —
+ * shown faithfully in the specimen so it can be judged in real text.
+ */
+
+.brand-v4 {
+  --font-martina: "Martina Plantijn", "Libre Baskerville", Georgia, serif;
+  --font-sohne: "Sohne", "Figtree", system-ui, sans-serif;
+  --font-mono: "Sohne Mono", "DM Mono", ui-monospace, monospace;
+
+  /* DEFAULT = Martina (serif). Per the brief, medium/small body is Martina, so
+     the serif is the page default and Söhne is the exception (below). */
+  font-family: var(--font-martina);
+  font-feature-settings: "ss01";
+}
+
+/* Söhne is assigned to: large body, the H3/H5 levels, and functional UI chrome
+   (controls + tracked uppercase microtext), which read cleaner in the
+   grotesque than in a text serif. Everything else inherits Martina. */
+.brand-v4 h3,
+.brand-v4 h5,
+.brand-v4 .t-h3,
+.brand-v4 .t-h5,
+.brand-v4 .t-body-lg,
+.brand-v4 .uppercase,
+.brand-v4 nav,
+.brand-v4 [data-slot="button"],
+.brand-v4 [data-slot="theme-toggle"],
+.brand-v4 [data-slot="badge"],
+.brand-v4 [data-slot="input"],
+.brand-v4 [data-slot="select-trigger"],
+.brand-v4 [data-slot="select-item"],
+.brand-v4 [data-slot="label"],
+.brand-v4 [data-slot="card-title"],
+.brand-v4 [data-slot="tabs-list"],
+.brand-v4 [data-slot="tabs-trigger"],
+.brand-v4 [data-slot="textarea"],
+.brand-v4 [data-slot="avatar-fallback"],
+.brand-v4 [data-slot="avatar-group-count"],
+.brand-v4 h6,
+.brand-v4 .t-h6 {
+  font-family: var(--font-sohne);
+}
+
+/* Martina display + heading levels — tracking only (family inherited).
+   H6 dropped to Söhne (above) — it reads as a functional/label-scale heading. */
+.brand-v4 h1,
+.brand-v4 h2,
+.brand-v4 h4,
+.brand-v4 .t-display,
+.brand-v4 .t-h1,
+.brand-v4 .t-h2,
+.brand-v4 .t-h4 {
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Pull-quotes & blockquotes are ALWAYS Martina — the editorial voice, even
+   when they sit inside a functional Söhne surface. */
+.brand-v4 blockquote,
+.brand-v4 .pullquote {
+  font-family: var(--font-martina) !important;
+}
+
+/* Functional UI surfaces (tables, settings, dashboards) lead with Söhne.
+   The ruling: Martina is the brand's editorial VOICE; Söhne is the INTERFACE.
+   Inside a .surface-ui everything defaults to Söhne; pull-quotes still win. */
+.brand-v4 .surface-ui {
+  font-family: var(--font-sohne);
+}
+
+/* ...but the SECTION TITLE on a functional surface is still brand voice —
+   keep the Martina-level headings (H1/H2/H4 + display) in the serif. The dense
+   content (table cells, form labels, card titles, H3/H5/H6) stays Söhne. */
+.brand-v4 .surface-ui h1,
+.brand-v4 .surface-ui h2,
+.brand-v4 .surface-ui h4,
+.brand-v4 .surface-ui .t-display,
+.brand-v4 .surface-ui .t-h1,
+.brand-v4 .surface-ui .t-h2,
+.brand-v4 .surface-ui .t-h4 {
+  font-family: var(--font-martina);
+}
+
+/* Big display sizes get the tighter tracking from the brief */
+.brand-v4 .t-display,
+.brand-v4 h1 {
+  letter-spacing: -0.025em;
+  line-height: 1.02;
+}
+
+.brand-v4 h3,
+.brand-v4 h5,
+.brand-v4 .t-h3,
+.brand-v4 .t-h5 {
+  letter-spacing: -0.005em;
+}
+
+/* ── 3. Shape — squircle / soft corners ──────────────────────────────────
+ * `corner-shape: squircle` is progressive enhancement (Chromium 139+); the
+ * border-radius is the graceful fallback everywhere else. We also neutralise
+ * the v3 "paper" tilt inside the v4 scope — the new language is soft & still,
+ * not scrappy & tilted.
+ */
+.brand-v4 {
+  --radius: 0.9rem; /* up from v3's 0.375rem — friendlier geometry */
+}
+
+.brand-v4 [data-slot="button"],
+.brand-v4 [data-slot="theme-toggle"],
+.brand-v4 [data-slot="card"],
+.brand-v4 [data-slot="alert"],
+.brand-v4 [data-slot="input"],
+.brand-v4 [data-slot="select-trigger"],
+.brand-v4 [data-slot="dialog-content"],
+.brand-v4 [data-slot="popover-content"],
+.brand-v4 [data-slot="tabs-list"],
+.brand-v4 .squircle {
+  corner-shape: squircle;
+  rotate: 0deg !important; /* kill v3 surface-tilt */
+}
+
+.brand-v4 [data-slot="card"] {
+  border-radius: 1.4rem;
+}
+
+/* Dense-data surfaces (the table) want tighter corners than editorial cards. */
+.brand-v4 [data-slot="card"].card-tight {
+  border-radius: 0.625rem;
+}
+
+/* Mobile: scale the soft corners down a touch so they don't dominate small
+   surfaces. ~30% off the card/button radii below the sm breakpoint. */
+@media (max-width: 640px) {
+  .brand-v4 {
+    --radius: 0.65rem;
+  }
+  .brand-v4 [data-slot="card"] {
+    border-radius: 1rem;
+  }
+  .brand-v4 [data-slot="card"].card-tight {
+    border-radius: 0.5rem;
+  }
+  .brand-v4 [data-slot="button"],
+  .brand-v4 [data-slot="theme-toggle"],
+  .brand-v4 [data-slot="input"],
+  .brand-v4 [data-slot="select-trigger"] {
+    border-radius: 0.6rem;
+  }
+  /* pill CTAs stay pills */
+  .brand-v4 [data-slot="button"].bg-primary {
+    border-radius: 9999px;
+  }
+}
+.brand-v4 [data-slot="button"],
+.brand-v4 [data-slot="theme-toggle"],
+.brand-v4 [data-slot="input"],
+.brand-v4 [data-slot="select-trigger"] {
+  border-radius: 0.85rem;
+}
+
+/* Soften the v3 paper grain on cards inside the v4 scope — cleaner surface */
+.brand-v4 [data-slot="card"]::before {
+  opacity: 0.28;
+}
+
+/* ── 4. Control sizing — bump up one step + generous horizontal padding ───
+ * v3 sits a full step below base shadcn (default = 32px h-8, px-2.5/10px).
+ * v4 target: default 40px with 20px padding (≥ base shadcn), and padding that
+ * actually grows with size. Applied via the size utility classes the Button
+ * already emits as hooks. This is a scoped DEMO of the proposed scale — the
+ * real change graduates into the Button component's size variants at review.
+ */
+.brand-v4 [data-slot="button"],
+.brand-v4 [data-slot="theme-toggle"] {
+  gap: 0.5rem;
+}
+
+/* text buttons: height + horizontal padding by size */
+.brand-v4 .h-6[data-slot="button"] { height: 1.875rem; padding-inline: 0.75rem; }   /* xs  24→30 */
+.brand-v4 .h-7[data-slot="button"] { height: 2.25rem;  padding-inline: 0.875rem; }  /* sm  28→36 / px14 */
+.brand-v4 .h-8[data-slot="button"] { height: 2.5rem;   padding-inline: 1.25rem; }   /* def 32→40 / px20 */
+.brand-v4 .h-9[data-slot="button"] { height: 2.75rem;  padding-inline: 1.75rem; font-size: 0.9375rem; } /* lg 36→44 / px28 / 15px */
+
+/* icon buttons + theme toggle stay square at the new sizes */
+.brand-v4 .size-6[data-slot="button"],
+.brand-v4 .size-6[data-slot="theme-toggle"] { width: 1.875rem; height: 1.875rem; }
+.brand-v4 .size-7[data-slot="button"],
+.brand-v4 .size-7[data-slot="theme-toggle"] { width: 2.25rem; height: 2.25rem; }
+.brand-v4 .size-8[data-slot="button"],
+.brand-v4 .size-8[data-slot="theme-toggle"] { width: 2.5rem; height: 2.5rem; }
+.brand-v4 .size-9[data-slot="button"],
+.brand-v4 .size-9[data-slot="theme-toggle"] { width: 2.75rem; height: 2.75rem; }
+
+/* form controls match the default button height */
+.brand-v4 [data-slot="input"] { height: 2.5rem; padding-inline: 0.875rem; }
+.brand-v4 [data-slot="select-trigger"][data-size="default"] { height: 2.5rem; padding-inline: 0.875rem; }
+
+/* a touch more vertical breathing room between stacked controls */
+.brand-v4 [data-slot="card"] [data-slot="button"] { margin-block: 0.0625rem; }
+
+/* ── 5. Primary buttons → fully rounded (pill) ───────────────────────────
+ * The "main" CTA reads as a pill; supporting buttons (outline / ghost /
+ * secondary) keep the softer squircle so there's a clear hierarchy. Targets
+ * the default variant via its bg-primary class hook. corner-shape:round so the
+ * full radius is a true pill, not a squircle-pill.
+ */
+.brand-v4 [data-slot="button"].bg-primary {
+  border-radius: 9999px;
+  corner-shape: round;
+}
+
+/* ── 6. Tabs — roomier than base-nova's compact 32px segmented control ────
+ * Base-nova's TabsList is a fixed 32px (h-8) pill with 6px (px-1.5) trigger
+ * padding — deliberately dense, which reads as cramped next to v4's generous
+ * buttons. Open up the list height + trigger padding. (Font is Söhne via the
+ * chrome group above.)
+ */
+.brand-v4 [data-slot="tabs-list"] {
+  height: auto;
+  padding: 0.25rem;
+  border-radius: 0.85rem;
+}
+.brand-v4 [data-slot="tabs-trigger"] {
+  padding: 0.45rem 1rem;
+  font-size: 0.9rem;
+  border-radius: 0.6rem;
+}
+
+/* ── 7. Search input with leading icon ───────────────────────────────────
+ * The generic input padding-inline (§4) would sit the text under a leading
+ * icon. Give search inputs explicit left room. Source order beats the §4 rule
+ * at equal specificity.
+ */
+.brand-v4 .search-input {
+  padding-left: 2.5rem;
+}
+
+/* Pricing illustrations: the blue ink reads dim on the warm-charcoal dark desk,
+   so lift it in dark mode. Raster art → a brightness/saturate filter keeps the
+   detail intact (a mask-recolour would risk the white window cut-outs). */
+.dark .brand-v4 .pricing-art,
+.dark .brand-v4 .brand-logo {
+  filter: brightness(1.65) saturate(1.1);
+}
+
+/* ── 8. Semantic colour roles — v4 palette (roles locked 2026-06-24) ──────
+ * Blue = primary CTA. Orange = secondary CTA + accent (filled-pill below).
+ * Magenta/Gold/Brick/Pink/Sky/Pale = expressive/illustrative (stock Tailwind
+ * utilities, used sparingly — not bound to neutral UI-state tokens, so subtle
+ * surfaces/hover stay calm). Destructive keeps a dedicated bright red. Charts
+ * use the brand palette. Saturated roles step one shade lighter in dark mode.
+ * Values are the Tailwind v4 oklch scale values.
+ */
+.brand-v4 {
+  --primary: var(--lia-blue-600); /* BRAND blue #0044f9 — not Tailwind blue-600 */
+  --ring: var(--lia-blue-600);
+  --sidebar-primary: var(--lia-blue-600);
+  --sidebar-ring: var(--lia-blue-600);
+  --chart-1: var(--lia-blue-600); /* brand blue */
+  --chart-2: oklch(0.705 0.213 47.6); /* orange-500 */
+  --chart-3: oklch(0.66 0.19 322); /* magenta — muted */
+  --chart-4: oklch(0.852 0.199 91.94); /* yellow-400 */
+  --chart-5: oklch(0.828 0.111 230.32); /* sky-300 */
+}
+
+.dark .brand-v4 {
+  --primary: var(--lia-blue-500); /* BRAND blue (dark) #3c6efd */
+  --ring: var(--lia-blue-500);
+  --sidebar-primary: var(--lia-blue-500);
+  --sidebar-ring: var(--lia-blue-500);
+  --chart-1: var(--lia-blue-500);
+  --chart-2: oklch(0.75 0.18 50); /* orange, lifted */
+  --chart-3: oklch(0.72 0.17 322); /* magenta — muted, lifted */
+  --chart-4: oklch(0.88 0.17 92); /* gold, lifted */
+  --chart-5: oklch(0.86 0.09 230); /* sky, lifted */
+
+  /* Re-declare every olive-dependent DARK semantic on the scope so it
+     re-resolves against the neutral primitives. Without this the dark surfaces
+     inherit globals' .dark values, which resolved var(--olive-*) against the
+     ORIGINAL olive on <html> — the source of the olive dark mode. */
+  --background: var(--olive-900); /* neutral-900 desk */
+  --foreground: var(--olive-50);
+  --card: var(--olive-800); /* neutral-800 — lifts */
+  --card-foreground: var(--olive-50);
+  --popover: var(--olive-800);
+  --popover-foreground: var(--olive-50);
+  --primary-foreground: var(--olive-900);
+  --secondary-foreground: var(--olive-900);
+  --muted: var(--olive-800);
+  --muted-foreground: var(--olive-400);
+  --accent: var(--olive-700);
+  --accent-foreground: var(--olive-50);
+  --border: var(--olive-700);
+  --input: var(--olive-700);
+  --sidebar: var(--olive-900);
+  --sidebar-foreground: var(--olive-50);
+  --sidebar-primary-foreground: var(--olive-900);
+  --sidebar-accent: var(--olive-700);
+  --sidebar-accent-foreground: var(--olive-50);
+  --sidebar-border: var(--olive-700);
+}
+
+/* ── 9. UI type scale — GRADUATED to component cva (button/input/select/tabs/
+ * badge/table/card-description font-sizes now live in their own variants).
+ * Only the .surface-ui body-utility shrink remains as a preview opt-in. */
+.brand-v4 .surface-ui .text-base {
+  font-size: 0.875rem;
+} /* 16→14 */
+.brand-v4 .surface-ui .text-sm {
+  font-size: 0.8125rem;
+} /* 14→13 */
+.brand-v4 .surface-ui .text-xs {
+  font-size: 0.6875rem;
+} /* 12→11 */
+
+/* ── 10. Small-UI tracking — Söhne is a grotesque ────────────────────────
+ * At small sizes the default tracking reads a touch tight; a hair of positive
+ * letter-spacing restores legibility. More on the smallest (chips/micro).
+ */
+.brand-v4 [data-slot="button"],
+.brand-v4 [data-slot="input"],
+.brand-v4 [data-slot="tabs-trigger"],
+.brand-v4 [data-slot="table-cell"],
+.brand-v4 [data-slot="table-head"],
+.brand-v4 [data-slot="label"] {
+  letter-spacing: 0.005em;
+}
+.brand-v4 [data-slot="badge"],
+.brand-v4 .surface-ui .text-xs {
+  letter-spacing: 0.01em;
+}
