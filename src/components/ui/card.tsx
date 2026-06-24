@@ -4,29 +4,11 @@ import * as React from 'react'
 
 import { cn } from "../../lib/utils"
 
-// Paper feel for every Card by default. The Card primitive owns the
-// randomness (tilt, scissor-cut corners, paper-grain offset) so every
-// consumer automatically gets paper without doing anything. Pass
-// `data-paper="flat"` to opt out for cases where paper is wrong.
-//
-// CSS for the paper grain ::before lives in `globals.css` so the
-// pseudo-element can be addressed by selector. The Card primitive sets
-// the inline CSS variables that the rule reads (--surface-tilt,
-// --card-radius, --paper-offset).
-
-const TILT_RANGE = 0.5
-const TILT_MIN = 0.15
-
-function singleTilt(): number {
-  const sign = Math.random() < 0.5 ? -1 : 1
-  const magnitude = TILT_MIN + Math.random() * (TILT_RANGE - TILT_MIN)
-  return sign * magnitude
-}
-
-function jaggedRadius(min: number, max: number): string {
-  const r = () => (min + Math.random() * (max - min)).toFixed(1)
-  return `${r()}px ${r()}px ${r()}px ${r()}px / ${r()}px ${r()}px ${r()}px ${r()}px`
-}
+// Paper-grain feel for every Card. The grain ::before lives in globals.css;
+// the Card sets a random --paper-offset so each card's grain reads distinct
+// (not a tiled repeat). v4: the tilt + scissor-cut auto-corners were removed —
+// the language is soft & still now. The grain stays. Pass `data-paper="flat"`
+// to opt out of the grain.
 
 function randomOffset(): string {
   return `${Math.floor(Math.random() * 2000)}px ${Math.floor(Math.random() * 2000)}px`
@@ -38,26 +20,14 @@ function Card({
   style,
   ...props
 }: React.ComponentProps<'div'> & { size?: 'default' | 'sm' }) {
-  // Lazy-init random values per mount. Each Card gets its own tilt,
-  // scissor radius, and paper-grain offset.
-  const [paper] = React.useState(() => ({
-    tilt: singleTilt().toFixed(2),
-    radius: jaggedRadius(2, 10),
-    offset: randomOffset(),
-  }))
+  // Random paper-grain offset per mount so the grain doesn't tile identically.
+  const [paperOffset] = React.useState(randomOffset)
 
   return (
     <div
       data-slot="card"
       data-size={size}
-      style={
-        {
-          '--surface-tilt': `${paper.tilt}deg`,
-          '--card-radius': paper.radius,
-          '--paper-offset': paper.offset,
-          ...style,
-        } as React.CSSProperties
-      }
+      style={{ '--paper-offset': paperOffset, ...style } as React.CSSProperties}
       className={cn(
         'group/card flex flex-col gap-4 overflow-hidden bg-card py-4 text-sm text-card-foreground shadow-sm has-data-[slot=card-footer]:pb-0 has-[>img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-[inherit] *:[img:last-child]:rounded-b-[inherit]',
         className,

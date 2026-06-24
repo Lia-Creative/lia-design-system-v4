@@ -2,7 +2,6 @@
 
 import { Button as ButtonPrimitive } from "@base-ui/react/button"
 import { cva, type VariantProps } from "class-variance-authority"
-import * as React from "react"
 
 import { cn } from "../../lib/utils"
 
@@ -45,48 +44,19 @@ const buttonVariants = cva(
   }
 )
 
-// Paper-ish randomness for every Button — scissor-cut radius + tilt.
-// Smaller magnitude than Card since buttons are smaller and more
-// interactive (huge tilts would feel unstable to click).
-const BUTTON_TILT_RANGE = 0.5
-const BUTTON_TILT_MIN = 0.1
-
-function singleTilt(): number {
-  const sign = Math.random() < 0.5 ? -1 : 1
-  const magnitude =
-    BUTTON_TILT_MIN + Math.random() * (BUTTON_TILT_RANGE - BUTTON_TILT_MIN)
-  return sign * magnitude
-}
-
-function jaggedRadius(min: number, max: number): string {
-  const r = () => (min + Math.random() * (max - min)).toFixed(1)
-  return `${r()}px ${r()}px ${r()}px ${r()}px / ${r()}px ${r()}px ${r()}px ${r()}px`
-}
+// v4: the v3 paper tilt + scissor-cut auto-radius were removed — buttons are
+// soft & still, with a clean fixed radius (squircle, pill on primary) from the
+// cva + globals.css shape rules.
 
 function Button({
   className,
   variant = "default",
   size = "default",
-  style,
   ...props
 }: ButtonPrimitive.Props & VariantProps<typeof buttonVariants>) {
-  // Per-mount randomness. Smaller radius range than Card (4-9px) since
-  // buttons are tighter shapes and big radii overshoot their own size.
-  const [paper] = React.useState(() => ({
-    tilt: singleTilt().toFixed(2),
-    radius: jaggedRadius(4, 9),
-  }))
-
-  const paperStyle = {
-    "--surface-tilt": `${paper.tilt}deg`,
-    "--button-radius": paper.radius,
-    ...style,
-  } as unknown as React.CSSProperties
-
   return (
     <ButtonPrimitive
       data-slot="button"
-      style={paperStyle}
       className={cn(buttonVariants({ variant, size, className }))}
       {...props}
     />

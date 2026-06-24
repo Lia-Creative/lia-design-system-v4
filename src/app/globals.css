@@ -356,15 +356,13 @@
 }
 
 @layer components {
-  /* Paper-grain treatment for every Card. The Card primitive sets the
-     inline CSS variables (--surface-tilt, --card-radius, --paper-offset)
-     via useState lazy-init so each instance gets its own randomness. */
+  /* Paper-grain treatment for every Card. v4: the tilt + scissor-cut
+     auto-radius were removed — soft & still. The Card now sets only a random
+     --paper-offset so the grain reads distinct per card (not a tiled repeat).
+     Radius/shape come from the v4 shape rules below. */
   [data-slot='card'] {
     position: relative;
     isolation: isolate;
-    border-radius: var(--card-radius, 3px);
-    rotate: var(--surface-tilt, 0deg);
-    transform-origin: center center;
   }
 
   [data-slot='card']::before {
@@ -379,43 +377,14 @@
     mix-blend-mode: var(--paper-blend);
     opacity: var(--paper-opacity);
     pointer-events: none;
-    /* z-index -1 inside the Card's isolated stacking context. Content
-       paints above this naturally without needing to touch `position`
-       on each child (which would break absolute-positioned children
-       like the stretched-link anchor pattern). */
+    /* z-index -1 inside the Card's isolated stacking context, so content
+       paints above without touching each child's position. */
     z-index: -1;
   }
 
-  /* Flat opt-out for Cards where paper feel would be wrong (data viz,
-     dense lists, etc.). Pass `data-paper="flat"` to the Card. */
-  [data-slot='card'][data-paper='flat'] {
-    border-radius: var(--radius-xl);
-    rotate: 0deg;
-  }
-
+  /* Flat opt-out — disable the grain (data viz, dense lists). */
   [data-slot='card'][data-paper='flat']::before {
     display: none;
-  }
-
-  /* Paper feel on Buttons (and ThemeToggle, which is a Button with
-     data-slot="theme-toggle" replacing data-slot="button") — scissor-
-     cut radius + subtle tilt. Texture overlay was tried and dropped:
-     multiply against dark saturated variants didn't register; invert
-     ruined the destructive variant's tone. May revisit with a
-     different recipe later. */
-  [data-slot='button'],
-  [data-slot='theme-toggle'] {
-    border-radius: var(--button-radius, 0.5rem);
-    rotate: var(--surface-tilt, 0deg);
-    transform-origin: center center;
-  }
-
-  /* Opt-out for Buttons/Toggles that need to be flat (toolbars where
-     all buttons should align, etc.). */
-  [data-slot='button'][data-paper='flat'],
-  [data-slot='theme-toggle'][data-paper='flat'] {
-    border-radius: var(--radius-lg);
-    rotate: 0deg;
   }
 }
 
