@@ -75,6 +75,7 @@ function BarChartFigure({
   // Recharts 3 isn't SSR-safe, so render it only after mount; reserve the
   // height server-side to avoid layout shift.
   const [mounted, setMounted] = React.useState(false)
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount gate for SSR-unsafe Recharts
   React.useEffect(() => setMounted(true), [])
 
   const config: ChartConfig = Object.fromEntries(

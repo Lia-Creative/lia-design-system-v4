@@ -8,9 +8,13 @@
   "exports": {
     ".": "./src/components/index.ts",
     "./globals.css": "./src/app/globals.css",
+    "./blockprint-icons": "./src/components/blockprint-icons/index.ts",
     "./lib/*": "./src/lib/*",
     "./components/*": "./src/components/*"
   },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "next build",
