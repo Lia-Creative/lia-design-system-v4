@@ -371,12 +371,14 @@
      auto-radius were removed — soft & still. The Card now sets only a random
      --paper-offset so the grain reads distinct per card (not a tiled repeat).
      Radius/shape come from the v4 shape rules below. */
-  [data-slot='card'] {
+  [data-slot='card'],
+  .paper-panel {
     position: relative;
     isolation: isolate;
   }
 
-  [data-slot='card']::before {
+  [data-slot='card']::before,
+  .paper-panel::before {
     content: '';
     position: absolute;
     inset: 0;
@@ -388,14 +390,22 @@
     mix-blend-mode: var(--paper-blend);
     opacity: var(--paper-opacity);
     pointer-events: none;
-    /* z-index -1 inside the Card's isolated stacking context, so content
-       paints above without touching each child's position. */
+    /* z-index -1 inside the isolated stacking context, so content paints above
+       without touching each child's position. */
     z-index: -1;
   }
 
   /* Flat opt-out — disable the grain (data viz, dense lists). */
   [data-slot='card'][data-paper='flat']::before {
     display: none;
+  }
+
+  /* Reusable "sheet of paper" surface: solid paper + grain (above) + a paper
+     shadow, so it reads as a layer floating over the page. For headers,
+     toolbars, sidebars and sticky panels — opaque, never translucent/blurred. */
+  .paper-panel {
+    background-color: var(--card);
+    box-shadow: var(--shadow-md);
   }
 }
 
