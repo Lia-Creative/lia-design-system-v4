@@ -72,6 +72,11 @@ function BarChartFigure({
 }: BarChartFigureProps) {
   const horizontal = orientation === "bars"
 
+  // Recharts 3 isn't SSR-safe, so render it only after mount; reserve the
+  // height server-side to avoid layout shift.
+  const [mounted, setMounted] = React.useState(false)
+  React.useEffect(() => setMounted(true), [])
+
   const config: ChartConfig = Object.fromEntries(
     series.map((s, i) => [
       s.key,
@@ -83,6 +88,9 @@ function BarChartFigure({
 
   return (
     <figure className={cn("my-8", className)}>
+      {!mounted ? (
+        <div style={{ height }} aria-hidden />
+      ) : (
       <ChartContainer
         config={config}
         className="aspect-auto w-full"
@@ -152,6 +160,7 @@ function BarChartFigure({
           ))}
         </BarChart>
       </ChartContainer>
+      )}
       {caption && (
         <figcaption className="mt-3 font-mono text-[0.7rem] tracking-wide text-muted-foreground uppercase">
           {caption}
