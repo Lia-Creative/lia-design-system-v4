@@ -10,8 +10,16 @@ import { cn } from "../../lib/utils"
 // the language is soft & still now. The grain stays. Pass `data-paper="flat"`
 // to opt out of the grain.
 
-function randomOffset(): string {
-  return `${Math.floor(Math.random() * 2000)}px ${Math.floor(Math.random() * 2000)}px`
+// Derive a stable per-instance paper-grain offset from React's useId. Seeding
+// off the SSR-stable id (instead of Math.random at render) keeps server and
+// client identical — no hydration mismatch — while still reading distinct per
+// card, so the grain never tiles identically.
+function offsetFromId(id: string): string {
+  let h = 0
+  for (let i = 0; i < id.length; i++) h = (Math.imul(h, 31) + id.charCodeAt(i)) | 0
+  const x = Math.abs(h) % 2000
+  const y = Math.abs(Math.imul(h, 2654435761)) % 2000
+  return `${x}px ${y}px`
 }
 
 function Card({
@@ -20,8 +28,7 @@ function Card({
   style,
   ...props
 }: React.ComponentProps<'div'> & { size?: 'default' | 'sm' }) {
-  // Random paper-grain offset per mount so the grain doesn't tile identically.
-  const [paperOffset] = React.useState(randomOffset)
+  const paperOffset = offsetFromId(React.useId())
 
   return (
     <div

@@ -14,6 +14,7 @@ const eslintConfig = defineConfig([
     ".next/**",
     "out/**",
     "build/**",
+    "dist/**",
     "next-env.d.ts",
     // Auto-generated block-print icon components (1,512 files).
     "src/components/blockprint-icons/generated/**",
