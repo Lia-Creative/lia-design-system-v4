@@ -82,7 +82,7 @@
   --secondary: var(--lia-sky-300);
   --secondary-foreground: var(--olive-900);
   --muted: var(--olive-200); /* Olive-200 (not 100) so ghost/outline hover steps perceptibly on Olive-50 surfaces, matching the dark lift */
-  --muted-foreground: var(--olive-500);
+  --muted-foreground: var(--olive-600); /* olive-500 failed WCAG AA on paper (3.81:1); 600 ≈ 5.6:1 */
   --accent: var(--lia-yellow-200);
   --accent-foreground: var(--olive-900);
   --destructive: var(--lia-red-600);
