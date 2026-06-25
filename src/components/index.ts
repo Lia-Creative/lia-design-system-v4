@@ -77,3 +77,17 @@ export {
 } from "./ui/table"
 export { Tabs, TabsList, TabsTrigger, TabsContent, tabsListVariants } from "./ui/tabs"
 export { Textarea } from "./ui/textarea"
+export {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  ChartLegend,
+  ChartLegendContent,
+  ChartStyle,
+  type ChartConfig,
+} from "./ui/chart"
+export {
+  BarChartFigure,
+  type BarSeries,
+  type BarRow,
+} from "./ui/bar-chart-figure"
