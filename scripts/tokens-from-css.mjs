@@ -97,7 +97,7 @@ function readVar(block, varName) {
 
 /**
  * Build a name→value map of every custom property declared in a block.
- * Used to resolve the primitive layer (e.g. --olive-50: oklch(...)) so semantic
+ * Used to resolve the primitive layer (e.g. --neutral-50: oklch(...)) so semantic
  * tokens that reference primitives via var() can be resolved to literals.
  */
 function buildVarMap(block) {

@@ -63,8 +63,8 @@ export type Paper = {
 // Light papers: multiply blend preserves the saturated colour; high contrast on
 // the greyscaled texture pushes grain spots dark so they read as printed specks.
 const LIGHT_PAPER = {
-  foreground: 'var(--olive-950)',
-  mutedForeground: 'var(--olive-700)',
+  foreground: 'var(--neutral-950)',
+  mutedForeground: 'var(--neutral-700)',
   paperBlend: 'multiply',
   paperOpacity: 1,
   paperFilter: 'saturate(0) contrast(1.6)',
@@ -81,9 +81,9 @@ export const LIA_PAPERS: Paper[] = [
   { name: 'Amber', bg: 'var(--color-amber-400)', ...LIGHT_PAPER },
   {
     name: 'Off-black',
-    bg: 'var(--olive-900)',
-    foreground: 'var(--olive-50)',
-    mutedForeground: 'var(--olive-300)',
+    bg: 'var(--neutral-900)',
+    foreground: 'var(--neutral-50)',
+    mutedForeground: 'var(--neutral-300)',
     paperBlend: 'screen',
     paperOpacity: 0.85,
     paperFilter: 'saturate(0) contrast(1.15) invert(1)',

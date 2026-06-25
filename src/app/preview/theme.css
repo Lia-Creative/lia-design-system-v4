@@ -96,7 +96,7 @@
  * grey. Light end = eggshell off-white; dark end = warm near-black (not muddy,
  * not pure black) — the Granola-dark / Uneevo-off-white direction.
  *
- * We override the --olive-* PRIMITIVES inside the scope; every semantic token
+ * We override the --neutral-* PRIMITIVES inside the scope; every semantic token
  * aliases them, so background/card/muted/border all shift automatically. (At
  * graduation this ramp gets renamed off "olive".) FIRST PASS — easy to tune.
  */
@@ -105,23 +105,23 @@
      Hue LOCKED at 89 (warm yellow — not the green-ish 107 of v3 olive), low
      chroma so it reads as a clean warm cream, never muddy. 50 is the base
      surface (no hard white anywhere); 900/950 are a warm near-black. */
-  --olive-50: oklch(0.978 0.006 89); /* lightest warm white — cards / raised surfaces */
-  --olive-100: oklch(0.957 0.007 89); /* Uneevo cream #F2F0EB — page background (just off the base) */
-  --olive-200: oklch(0.922 0.008 89); /* borders, muted */
-  --olive-300: oklch(0.85 0.009 89);
-  --olive-400: oklch(0.712 0.009 88);
-  --olive-500: oklch(0.578 0.009 86); /* muted-foreground */
-  --olive-600: oklch(0.486 0.009 84);
+  --neutral-50: oklch(0.978 0.006 89); /* lightest warm white — cards / raised surfaces */
+  --neutral-100: oklch(0.957 0.007 89); /* Uneevo cream #F2F0EB — page background (just off the base) */
+  --neutral-200: oklch(0.922 0.008 89); /* borders, muted */
+  --neutral-300: oklch(0.85 0.009 89);
+  --neutral-400: oklch(0.712 0.009 88);
+  --neutral-500: oklch(0.578 0.009 86); /* muted-foreground */
+  --neutral-600: oklch(0.486 0.009 84);
   /* Dark steps = Tailwind `neutral` scale (pure grey, chroma 0). The custom
      warm oklch read too orange next to Claude; this is the restrained,
      Claude-like dark with no warm/green cast. Light end stays the Uneevo cream. */
   /* Whisper-warm dark: halfway between pure Tailwind neutral (chroma 0, which
      read too cold) and the earlier warm-charcoal (0.004, too warm). Chroma
      ~0.0025 at hue ~56 — a hint of warmth, still reads as a clean charcoal. */
-  --olive-700: oklch(0.371 0.006 57); /* dark border */
-  --olive-800: oklch(0.269 0.0065 56); /* dark card */
-  --olive-900: oklch(0.205 0.005 55); /* dark bg / light ink — warm charcoal (0.005) */
-  --olive-950: oklch(0.145 0.004 52);
+  --neutral-700: oklch(0.371 0.006 57); /* dark border */
+  --neutral-800: oklch(0.269 0.0065 56); /* dark card */
+  --neutral-900: oklch(0.205 0.005 55); /* dark bg / light ink — warm charcoal (0.005) */
+  --neutral-950: oklch(0.145 0.004 52);
 }
 
 /* Light mode only: the desk is the cream (100), one step off the lightest base
@@ -131,24 +131,24 @@ html:not(.dark) .brand-v4 {
   /* Re-declare every olive-dependent semantic ON the scope so it re-resolves
      against the warm primitives (globals declares these on :root, where var()
      resolved against the ORIGINAL olive — descendants don't re-evaluate). */
-  --background: var(--olive-100); /* cream desk */
-  --foreground: var(--olive-900);
-  --card: var(--olive-50); /* lighter — lifts off desk */
-  --card-foreground: var(--olive-900);
-  --popover: var(--olive-50);
-  --popover-foreground: var(--olive-900);
-  --primary-foreground: var(--olive-50);
-  --secondary-foreground: var(--olive-900);
-  --muted: var(--olive-200);
-  --muted-foreground: var(--olive-500);
-  --accent-foreground: var(--olive-900);
-  --border: var(--olive-200);
-  --input: var(--olive-200);
-  --sidebar: var(--olive-100);
-  --sidebar-foreground: var(--olive-900);
-  --sidebar-primary-foreground: var(--olive-50);
-  --sidebar-accent-foreground: var(--olive-900);
-  --sidebar-border: var(--olive-200);
+  --background: var(--neutral-100); /* cream desk */
+  --foreground: var(--neutral-900);
+  --card: var(--neutral-50); /* lighter — lifts off desk */
+  --card-foreground: var(--neutral-900);
+  --popover: var(--neutral-50);
+  --popover-foreground: var(--neutral-900);
+  --primary-foreground: var(--neutral-50);
+  --secondary-foreground: var(--neutral-900);
+  --muted: var(--neutral-200);
+  --muted-foreground: var(--neutral-500);
+  --accent-foreground: var(--neutral-900);
+  --border: var(--neutral-200);
+  --input: var(--neutral-200);
+  --sidebar: var(--neutral-100);
+  --sidebar-foreground: var(--neutral-900);
+  --sidebar-primary-foreground: var(--neutral-50);
+  --sidebar-accent-foreground: var(--neutral-900);
+  --sidebar-border: var(--neutral-200);
 }
 
 /* THE OLIVE LEAK FIX: <body> and <html> live OUTSIDE .brand-v4, so they still
@@ -452,28 +452,28 @@ html.dark body {
 
   /* Re-declare every olive-dependent DARK semantic on the scope so it
      re-resolves against the neutral primitives. Without this the dark surfaces
-     inherit globals' .dark values, which resolved var(--olive-*) against the
+     inherit globals' .dark values, which resolved var(--neutral-*) against the
      ORIGINAL olive on <html> — the source of the olive dark mode. */
-  --background: var(--olive-900); /* neutral-900 desk */
-  --foreground: var(--olive-50);
-  --card: var(--olive-800); /* neutral-800 — lifts */
-  --card-foreground: var(--olive-50);
-  --popover: var(--olive-800);
-  --popover-foreground: var(--olive-50);
-  --primary-foreground: var(--olive-900);
-  --secondary-foreground: var(--olive-900);
-  --muted: var(--olive-800);
-  --muted-foreground: var(--olive-400);
-  --accent: var(--olive-700);
-  --accent-foreground: var(--olive-50);
-  --border: var(--olive-700);
-  --input: var(--olive-700);
-  --sidebar: var(--olive-900);
-  --sidebar-foreground: var(--olive-50);
-  --sidebar-primary-foreground: var(--olive-900);
-  --sidebar-accent: var(--olive-700);
-  --sidebar-accent-foreground: var(--olive-50);
-  --sidebar-border: var(--olive-700);
+  --background: var(--neutral-900); /* neutral-900 desk */
+  --foreground: var(--neutral-50);
+  --card: var(--neutral-800); /* neutral-800 — lifts */
+  --card-foreground: var(--neutral-50);
+  --popover: var(--neutral-800);
+  --popover-foreground: var(--neutral-50);
+  --primary-foreground: var(--neutral-900);
+  --secondary-foreground: var(--neutral-900);
+  --muted: var(--neutral-800);
+  --muted-foreground: var(--neutral-400);
+  --accent: var(--neutral-700);
+  --accent-foreground: var(--neutral-50);
+  --border: var(--neutral-700);
+  --input: var(--neutral-700);
+  --sidebar: var(--neutral-900);
+  --sidebar-foreground: var(--neutral-50);
+  --sidebar-primary-foreground: var(--neutral-900);
+  --sidebar-accent: var(--neutral-700);
+  --sidebar-accent-foreground: var(--neutral-50);
+  --sidebar-border: var(--neutral-700);
 }
 
 /* ── 9. UI type scale — GRADUATED to component cva (button/input/select/tabs/
