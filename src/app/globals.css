@@ -224,6 +224,17 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  /* Expressive accent palette — exposed as utilities (bg-lia-orange,
+     text-lia-magenta, border-lia-brick, …). Use sparingly: reserved accents. */
+  --color-lia-orange: var(--lia-orange);
+  --color-lia-magenta: var(--lia-magenta);
+  --color-lia-gold: var(--lia-gold);
+  --color-lia-brick: var(--lia-brick);
+  --color-lia-pink: var(--lia-pink);
+  --color-lia-sky: var(--lia-sky);
+  --color-lia-pale: var(--lia-pale);
+
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
   --color-sidebar-primary: var(--sidebar-primary);
