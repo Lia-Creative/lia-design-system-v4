@@ -112,30 +112,30 @@
 
   /* Paper shadow scale. Contact layer stays tight at every level (paper
      edge meets surface); ambient/diffuse layer scales from xs to 2xl.
-     Light-source bias toward lower-right (small x-axis offset). Tinted
-     dark-olive in light mode. */
-  --shadow-2xs: 0.5px 0.5px 1px 0 oklch(0.20 0.015 107 / 0.10);
+     Light-source bias toward lower-right (small x-axis offset). Warm-tinted
+     (hue 55), low chroma, in light mode. */
+  --shadow-2xs: 0.5px 0.5px 1px 0 oklch(0.20 0.01 55 / 0.10);
   --shadow-xs:
-    0.5px 0.5px 1px 0 oklch(0.20 0.015 107 / 0.15),
-    1px 1px 2px -0.5px oklch(0.20 0.015 107 / 0.05);
+    0.5px 0.5px 1px 0 oklch(0.20 0.01 55 / 0.15),
+    1px 1px 2px -0.5px oklch(0.20 0.01 55 / 0.05);
   --shadow-sm:
-    0.5px 1px 1.5px 0 oklch(0.20 0.015 107 / 0.18),
-    1px 2px 3px -0.5px oklch(0.20 0.015 107 / 0.08);
+    0.5px 1px 1.5px 0 oklch(0.20 0.01 55 / 0.18),
+    1px 2px 3px -0.5px oklch(0.20 0.01 55 / 0.08);
   --shadow:
-    0.5px 1px 1.5px 0 oklch(0.20 0.015 107 / 0.22),
-    1px 2px 4px -1px oklch(0.20 0.015 107 / 0.10);
+    0.5px 1px 1.5px 0 oklch(0.20 0.01 55 / 0.22),
+    1px 2px 4px -1px oklch(0.20 0.01 55 / 0.10);
   --shadow-md:
-    0.5px 1.5px 2px 0 oklch(0.20 0.015 107 / 0.25),
-    1.5px 3px 5px -1px oklch(0.20 0.015 107 / 0.12);
+    0.5px 1.5px 2px 0 oklch(0.20 0.01 55 / 0.25),
+    1.5px 3px 5px -1px oklch(0.20 0.01 55 / 0.12);
   --shadow-lg:
-    1px 2px 3px 0 oklch(0.20 0.015 107 / 0.25),
-    2px 4px 8px -2px oklch(0.20 0.015 107 / 0.14);
+    1px 2px 3px 0 oklch(0.20 0.01 55 / 0.25),
+    2px 4px 8px -2px oklch(0.20 0.01 55 / 0.14);
   --shadow-xl:
-    1px 3px 4px 0 oklch(0.20 0.015 107 / 0.28),
-    2px 6px 12px -3px oklch(0.20 0.015 107 / 0.16);
+    1px 3px 4px 0 oklch(0.20 0.01 55 / 0.28),
+    2px 6px 12px -3px oklch(0.20 0.01 55 / 0.16);
   --shadow-2xl:
-    1px 4px 6px 0 oklch(0.20 0.015 107 / 0.30),
-    3px 10px 20px -4px oklch(0.20 0.015 107 / 0.20);
+    1px 4px 6px 0 oklch(0.20 0.01 55 / 0.30),
+    3px 10px 20px -4px oklch(0.20 0.01 55 / 0.20);
 }
 
 .dark {
@@ -400,12 +400,12 @@
     display: none;
   }
 
-  /* Reusable "sheet of paper" surface: solid paper + grain (above) + a paper
-     shadow, so it reads as a layer floating over the page. For headers,
-     toolbars, sidebars and sticky panels — opaque, never translucent/blurred. */
+  /* Reusable "sheet of paper" surface: solid paper + grain (above) — opaque,
+     never translucent/blurred. For headers, toolbars, sidebars and sticky
+     panels. Elevation is opt-in: add a `shadow-*` utility (e.g. shadow-xs) when
+     the sheet should lift off the page, so each surface controls its own depth. */
   .paper-panel {
     background-color: var(--card);
-    box-shadow: var(--shadow-md);
   }
 }
 
