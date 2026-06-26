@@ -3,24 +3,15 @@
 import * as React from 'react'
 
 import { cn } from "../../lib/utils"
+import { usePaperOffset } from "../../hooks/use-paper-offset"
 
 // Paper-grain feel for every Card. The grain ::before lives in globals.css;
-// the Card sets a random --paper-offset so each card's grain reads distinct
-// (not a tiled repeat). v4: the tilt + scissor-cut auto-corners were removed —
-// the language is soft & still now. The grain stays. Pass `data-paper="flat"`
-// to opt out of the grain.
-
-// Derive a stable per-instance paper-grain offset from React's useId. Seeding
-// off the SSR-stable id (instead of Math.random at render) keeps server and
-// client identical — no hydration mismatch — while still reading distinct per
-// card, so the grain never tiles identically.
-function offsetFromId(id: string): string {
-  let h = 0
-  for (let i = 0; i < id.length; i++) h = (Math.imul(h, 31) + id.charCodeAt(i)) | 0
-  const x = Math.abs(h) % 2000
-  const y = Math.abs(Math.imul(h, 2654435761)) % 2000
-  return `${x}px ${y}px`
-}
+// the Card sets a per-instance --paper-offset so each card's grain reads
+// distinct (not a tiled repeat). The offset is deterministic + SSR-stable via
+// usePaperOffset (seeded from useId) — no hydration mismatch, final texture in
+// the first paint. v4: the tilt + scissor-cut auto-corners were removed — the
+// language is soft & still now. The grain stays. Pass `data-paper="flat"` to
+// opt out of the grain.
 
 function Card({
   className,
@@ -28,7 +19,7 @@ function Card({
   style,
   ...props
 }: React.ComponentProps<'div'> & { size?: 'default' | 'sm' }) {
-  const paperOffset = offsetFromId(React.useId())
+  const paperOffset = usePaperOffset()
 
   return (
     <div
