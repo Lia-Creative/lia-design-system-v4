@@ -35,6 +35,7 @@ export { Toaster } from "./ui/sonner"
 export { ThemeToggle } from "./ui/theme-toggle"
 export { ThemeProvider } from "./theme-provider"
 export { usePaperOffset } from "../hooks/use-paper-offset"
+export { useMounted } from "../hooks/use-mounted"
 
 // v4 primitives — full public surface so consumers compose from real
 // design-system components instead of hand-rolling them.

@@ -6,6 +6,7 @@ import * as React from "react"
 
 import { Button } from "./button"
 import { cn } from "../../lib/utils"
+import { useMounted } from "../../hooks/use-mounted"
 
 interface ThemeToggleProps
   extends Omit<React.ComponentProps<typeof Button>, "children" | "onClick"> {
@@ -21,12 +22,7 @@ function ThemeToggle({
   ...props
 }: ThemeToggleProps) {
   const { resolvedTheme, setTheme } = useTheme()
-  const [mounted, setMounted] = React.useState(false)
-
-  React.useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- mount gate to avoid theme hydration mismatch
-    setMounted(true)
-  }, [])
+  const mounted = useMounted()
 
   const isDark = mounted && resolvedTheme === "dark"
 

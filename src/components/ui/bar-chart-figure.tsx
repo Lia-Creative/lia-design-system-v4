@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import {
   Bar,
   BarChart,
@@ -12,6 +11,7 @@ import {
 } from "recharts"
 
 import { cn } from "../../lib/utils"
+import { useMounted } from "../../hooks/use-mounted"
 import {
   ChartContainer,
   ChartLegend,
@@ -74,9 +74,7 @@ function BarChartFigure({
 
   // Recharts 3 isn't SSR-safe, so render it only after mount; reserve the
   // height server-side to avoid layout shift.
-  const [mounted, setMounted] = React.useState(false)
-  // eslint-disable-next-line react-hooks/set-state-in-effect -- intentional mount gate for SSR-unsafe Recharts
-  React.useEffect(() => setMounted(true), [])
+  const mounted = useMounted()
 
   const config: ChartConfig = Object.fromEntries(
     series.map((s, i) => [
