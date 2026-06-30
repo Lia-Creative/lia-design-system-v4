@@ -50,6 +50,24 @@ const SHARED_FONT = {
   'font/serif': 'Martina Plantijn',
 }
 
+// v4 UI type scale — the Apple-aligned small steps that OVERRIDE the Tailwind
+// defaults (see globals.css @theme `--text-xs/sm/base` + their --line-height /
+// --letter-spacing modifiers). Hardcoded for the same reason as radius/font:
+// the script can't reliably parse the @theme modifier triples. KEEP IN STEP with
+// globals.css @theme --text-*. Only the Lia-overridden steps are emitted; lg+
+// stay Tailwind defaults (already present in Figma). Tracking is % (em × 100).
+const SHARED_TYPE = {
+  'typography/font-size/xs': { value: '11', type: 'fontSizes' },
+  'typography/line-height/xs': { value: '14', type: 'lineHeights' },
+  'typography/letter-spacing/xs': { value: '1%', type: 'letterSpacing' },
+  'typography/font-size/sm': { value: '13', type: 'fontSizes' },
+  'typography/line-height/sm': { value: '18', type: 'lineHeights' },
+  'typography/letter-spacing/sm': { value: '0.5%', type: 'letterSpacing' },
+  'typography/font-size/base': { value: '15', type: 'fontSizes' },
+  'typography/line-height/base': { value: '22', type: 'lineHeights' },
+  'typography/letter-spacing/base': { value: '0.5%', type: 'letterSpacing' },
+}
+
 const SHADOW_VARS = [
   ['shadow-2xs', 'shadow/2xs'],
   ['shadow-xs', 'shadow/xs'],
@@ -221,6 +239,9 @@ function main() {
   }
   for (const [k, v] of Object.entries(SHARED_FONT)) {
     shared[k] = { value: v, type: 'fontFamilies' }
+  }
+  for (const [k, v] of Object.entries(SHARED_TYPE)) {
+    shared[k] = v
   }
 
   const next = {

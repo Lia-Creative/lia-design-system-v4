@@ -39,6 +39,42 @@
     "font/serif": {
       "value": "Martina Plantijn",
       "type": "fontFamilies"
+    },
+    "typography/font-size/xs": {
+      "value": "11",
+      "type": "fontSizes"
+    },
+    "typography/line-height/xs": {
+      "value": "14",
+      "type": "lineHeights"
+    },
+    "typography/letter-spacing/xs": {
+      "value": "1%",
+      "type": "letterSpacing"
+    },
+    "typography/font-size/sm": {
+      "value": "13",
+      "type": "fontSizes"
+    },
+    "typography/line-height/sm": {
+      "value": "18",
+      "type": "lineHeights"
+    },
+    "typography/letter-spacing/sm": {
+      "value": "0.5%",
+      "type": "letterSpacing"
+    },
+    "typography/font-size/base": {
+      "value": "15",
+      "type": "fontSizes"
+    },
+    "typography/line-height/base": {
+      "value": "22",
+      "type": "lineHeights"
+    },
+    "typography/letter-spacing/base": {
+      "value": "0.5%",
+      "type": "letterSpacing"
     }
   },
   "lia-light": {
