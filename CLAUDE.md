@@ -1,6 +1,6 @@
-# Lia Design System v3 — AI Development Rules
+# Lia Design System v4 — AI Development Rules
 
-Stack: Next.js 16 · Tailwind v4 · shadcn/ui (base-nova) · Base UI primitives · next-themes · Storybook 10 · Figtree / DM Mono / Libre Baskerville.
+Stack: Next.js 16 · Tailwind v4 · shadcn/ui (base-nova) · Base UI primitives · next-themes · Storybook 10 · Sohne / Sohne Mono / Martina Plantijn (Klim, self-hosted @font-face).
 
 These rules are adapted from the v2 system's hard-won learnings. Where v3 diverges from v2 by design (shadcn conventions), that's flagged inline. Read first; ask second; write third.
 

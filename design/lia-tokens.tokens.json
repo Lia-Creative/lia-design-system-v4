@@ -9,35 +9,35 @@
   "$themes": [],
   "lia-shared": {
     "radius/sm": {
-      "value": "2px",
+      "value": "10.4px",
       "type": "borderRadius"
     },
     "radius/md": {
-      "value": "4px",
+      "value": "12.4px",
       "type": "borderRadius"
     },
     "radius/lg": {
-      "value": "6px",
+      "value": "14.4px",
       "type": "borderRadius"
     },
     "radius/xl": {
-      "value": "10px",
+      "value": "18.4px",
       "type": "borderRadius"
     },
     "radius/base": {
-      "value": "6px",
+      "value": "14.4px",
       "type": "borderRadius"
     },
     "font/sans": {
-      "value": "Figtree",
+      "value": "Sohne",
       "type": "fontFamilies"
     },
     "font/mono": {
-      "value": "DM Mono",
+      "value": "Sohne Mono",
       "type": "fontFamilies"
     },
     "font/serif": {
-      "value": "Libre Baskerville",
+      "value": "Martina Plantijn",
       "type": "fontFamilies"
     }
   },

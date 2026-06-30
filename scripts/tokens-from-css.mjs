@@ -27,22 +27,27 @@ const ROOT = resolve(here, '..')
 const CSS_PATH = resolve(ROOT, 'src/app/globals.css')
 const JSON_PATH = resolve(ROOT, 'design/lia-tokens.tokens.json')
 
+// Derived from globals.css --radius (v4 = 0.9rem = 14.4px) and the calc()-based
+// --radius-sm/md/lg/xl. The script can't evaluate calc(var(--radius) ± Npx), so
+// the resolved px values are declared here. Keep in step with --radius:
+//   base/lg = --radius (0.9rem = 14.4)   sm = -4px   md = -2px   xl = +4px
 const SHARED_RADIUS = {
-  'radius/sm': '2px',
-  'radius/md': '4px',
-  'radius/lg': '6px',
-  'radius/xl': '10px',
-  'radius/base': '6px',
+  'radius/sm': '10.4px',
+  'radius/md': '12.4px',
+  'radius/lg': '14.4px',
+  'radius/xl': '18.4px',
+  'radius/base': '14.4px',
 }
 
-// Mirrors the next/font imports in src/app/layout.tsx + the --font-* vars in
-// globals.css. These resolve to Next.js font-loader CSS vars (var(--font-figtree))
-// which can't be read from globals.css as literal family names, so they're
-// declared here. Keep in sync with layout.tsx if a font changes.
+// Mirrors the primary family in the --font-* stacks in globals.css. Those are
+// font *stacks* (e.g. `"Sohne", "Figtree", system-ui`), not single literals, so
+// the script can't read one family name from them — they're declared here.
+// v4 = Klim (self-hosted @font-face in globals.css). Keep in step with the
+// --font-sans/serif/mono primaries if a font changes.
 const SHARED_FONT = {
-  'font/sans': 'Figtree',
-  'font/mono': 'DM Mono',
-  'font/serif': 'Libre Baskerville',
+  'font/sans': 'Sohne',
+  'font/mono': 'Sohne Mono',
+  'font/serif': 'Martina Plantijn',
 }
 
 const SHADOW_VARS = [
