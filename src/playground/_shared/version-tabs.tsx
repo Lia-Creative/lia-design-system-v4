@@ -45,7 +45,7 @@ export function VersionTabs({ versions, defaultId }: VersionTabsProps) {
         <div className="mx-auto flex w-full max-w-screen-md items-center gap-2 px-4 py-2">
           <label
             htmlFor="version-select"
-            className="shrink-0 text-xs font-medium tracking-wide text-muted-foreground uppercase"
+            className="shrink-0 text-xs font-normal tracking-wide text-muted-foreground uppercase"
           >
             Version
           </label>
@@ -53,7 +53,7 @@ export function VersionTabs({ versions, defaultId }: VersionTabsProps) {
             id="version-select"
             value={activeId}
             onChange={(e) => setActiveId(e.target.value)}
-            className="rounded-md border border-border bg-background px-2 py-1 text-sm font-medium text-foreground focus:ring-2 focus:ring-ring/40 focus:outline-none"
+            className="rounded-md border border-border bg-background px-2 py-1 text-sm font-normal text-foreground focus:ring-2 focus:ring-ring/40 focus:outline-none"
           >
             {versions.map((v) => (
               <option key={v.id} value={v.id}>

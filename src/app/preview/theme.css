@@ -7,14 +7,17 @@
  * pieces graduate into globals.css as the real v4 cut.
  *
  * Currently in here:
- *   1. Klim test fonts (Martina Plantijn + Söhne) via @font-face.
+ *   1. Klim fonts, full licence (Martina Plantijn + Söhne) via @font-face.
  *   2. The v4 type system (level → family mapping per Dan's brief).
  *   3. Squircle / soft-corner shape language.
  *   4. Colours: UNCHANGED for now — we keep the current v3 brand ramps and
  *      evolve from there. The ratio display reads the live semantic tokens.
  */
 
-/* ── 1. Fonts (Klim test licence — local woff2 in /public/fonts) ─────────── */
+/* ── 1. Fonts (Klim FULL licence — local woff2 in /public/fonts) ──────────
+   Only the licensed weights: Martina Regular 400; Söhne Buch 400 + Halbfett
+   600 (+ italics); Söhne Mono Buch 400. No Kräftig/medium/bold (not owned).
+   font-synthesis-weight:none lives in globals.css html base, covering this. */
 
 @font-face {
   font-family: "Martina Plantijn";
@@ -28,20 +31,6 @@
   src: url("/fonts/test-martina-plantijn-italic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Martina Plantijn";
-  src: url("/fonts/test-martina-plantijn-medium.woff2") format("woff2");
-  font-weight: 500;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Martina Plantijn";
-  src: url("/fonts/test-martina-plantijn-bold.woff2") format("woff2");
-  font-weight: 700;
-  font-style: normal;
   font-display: swap;
 }
 
@@ -61,16 +50,16 @@
 }
 @font-face {
   font-family: "Sohne";
-  src: url("/fonts/test-soehne-kraftig.woff2") format("woff2");
-  font-weight: 500;
+  src: url("/fonts/test-soehne-halbfett.woff2") format("woff2");
+  font-weight: 600;
   font-style: normal;
   font-display: swap;
 }
 @font-face {
   font-family: "Sohne";
-  src: url("/fonts/test-soehne-halbfett.woff2") format("woff2");
+  src: url("/fonts/soehne-halbfett-kursiv.woff2") format("woff2");
   font-weight: 600;
-  font-style: normal;
+  font-style: italic;
   font-display: swap;
 }
 
@@ -78,13 +67,6 @@
   font-family: "Sohne Mono";
   src: url("/fonts/test-soehne-mono-buch.woff2") format("woff2");
   font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-@font-face {
-  font-family: "Sohne Mono";
-  src: url("/fonts/test-soehne-mono-kraftig.woff2") format("woff2");
-  font-weight: 500;
   font-style: normal;
   font-display: swap;
 }
