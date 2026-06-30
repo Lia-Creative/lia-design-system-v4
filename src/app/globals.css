@@ -249,6 +249,21 @@
   --font-mono: var(--font-mono);
   --font-serif: var(--font-serif);
 
+  /* v4 UI type scale — Apple-aligned small sizes (15 / 13 / 11) overriding the
+     Tailwind defaults (16 / 14 / 12). Söhne is a grotesque, so the smaller steps
+     carry positive tracking for legibility. Long-form reading uses text-lg+ (18px),
+     not text-base. Sizes/leading/tracking are the single source for these tokens —
+     components should use text-xs/sm/base, not inline text-[…]/tracking-[…]. */
+  --text-xs: 0.6875rem;                /* 11px */
+  --text-xs--line-height: 0.875rem;    /* 14px (1.27) */
+  --text-xs--letter-spacing: 0.01em;   /* +1% */
+  --text-sm: 0.8125rem;                /* 13px */
+  --text-sm--line-height: 1.125rem;    /* 18px (1.38) */
+  --text-sm--letter-spacing: 0.005em;  /* +0.5% */
+  --text-base: 0.9375rem;              /* 15px */
+  --text-base--line-height: 1.375rem;  /* 22px (1.47) */
+  --text-base--letter-spacing: 0.005em;/* +0.5% */
+
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
