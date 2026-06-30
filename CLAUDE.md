@@ -16,7 +16,7 @@ These rules are adapted from the v2 system's hard-won learnings. Where v3 diverg
 
 `src/app/globals.css` is the **only** place design tokens are authored. It defines **three layers**, and the layering is mandatory (see Aliasing Hierarchy):
 
-1. **Primitives** — named colour ramps (`--neutral-50…950`, `--lia-blue-500/600`, `--lia-sky-200/300`, `--lia-yellow-200`, `--lia-red-500/600`) in `:root`. **This is the only place a raw `oklch()` colour literal may appear.** Mirrors the Figma `colors/*` ramps (neutral ramp `--neutral-*` = `colors/olive/*` in Figma — Figma collection rename pending; brand = `colors/lia-*`).
+1. **Primitives** — named colour ramps (`--neutral-50…950`, `--lia-blue-500/600`, `--lia-sky-200/300`, `--lia-yellow-200`, `--lia-red-500/600`) in `:root`. **This is the only place a raw `oklch()` colour literal may appear.** Mirrors the Figma `colors/*` ramps (neutral ramp `--neutral-*` = `colors/lia-neutral/*` in Figma; brand = `colors/lia-*`).
 2. **Semantic CSS vars** — `--background`, `--primary`, `--muted`, `--ring`, etc. — in `:root` (light) and `.dark` (dark). **Each MUST be `var(--<primitive>)`, never an inline literal.** These are the names components consume.
 3. **Tailwind theme mapping** — the `@theme inline { ... }` block exposes the semantics to utility classes (`bg-primary` resolves to `var(--primary)`).
 
@@ -47,7 +47,7 @@ Rules, non-negotiable:
 - **Raw colour literals live ONLY in the primitive layer** — `--neutral-*` / `--lia-*` in `globals.css`, `colors/*` ramps in Figma. Nowhere else.
 - **Every semantic token is an alias.** Code: `--primary: var(--lia-blue-600)`. Figma: `theme/primary` is a `VARIABLE_ALIAS` to `colors/lia-blue/600`. **Never** inline a literal into a semantic token in either place.
 - **No semantic-to-semantic chains.** A semantic aliases a *primitive*, not another semantic.
-- **Neutrals → `--neutral-*` (code) / `colors/olive/*` (Figma, collection rename pending). Brand → `lia-*` / `colors/lia-*`.** Brand colours are bespoke (not Tailwind); the `colors/lia-*` ramps hold their exact values. The "colourful mode" palette (Purple/Blue/Amber) is stock Tailwind and already available as ramps/utilities — use those directly, don't duplicate.
+- **Neutrals → `--neutral-*` (code) / `colors/lia-neutral/*` (Figma). Brand → `lia-*` / `colors/lia-*`.** Brand colours are bespoke (not Tailwind); the `colors/lia-*` ramps hold their exact values. The "colourful mode" palette (Purple/Blue/Amber) is stock Tailwind and already available as ramps/utilities — use those directly, don't duplicate.
 
 When changing a colour:
 1. Edit the **primitive** value (`--neutral-200`, `--lia-blue-600`, …) in `globals.css`. Every semantic referencing it updates automatically. Only touch a semantic line to **re-point** it at a different primitive.
@@ -244,7 +244,7 @@ If a design surface needs pixel-perfect "show me exactly what the code renders" 
 
 The canonical code→Figma path for theme updates is **direct MCP variable writes** (Tokens Studio "Pull from GitHub" makes a *parallel* collection rather than updating the live alias chain, so it's not the path). When pushing via MCP, mirror the Aliasing Hierarchy exactly:
 
-- **Write raw hex ONLY into the primitive ramps** — `colors/olive/*`, `colors/lia-*`. These are the Figma equivalent of the `--neutral-*` / `--lia-*` primitives in `globals.css`.
+- **Write raw hex ONLY into the primitive ramps** — `colors/lia-neutral/*`, `colors/lia-*`. These are the Figma equivalent of the `--neutral-*` / `--lia-*` primitives in `globals.css`.
 - **`theme/*` variables must stay aliases** — each `theme/<name>` (and `theme/<name>-dark`) is a `VARIABLE_ALIAS` pointing at a `colors/*` primitive. **Never** write a raw colour into a `theme/*` variable; that breaks the chain and de-syncs from code. If a push left raw hex in `theme/*`, re-alias it to the matching primitive.
 - **File structure:** `☀️ Mode` (theme/* light+dark, aliases into Themes) → `🚀 Themes` Default mode (theme/* + theme/*-dark, alias into `colors/*`) → `💨 Tailwind` (`colors/*` primitives hold the raw values). Write targets for a code push are the `colors/*` ramp variables; the `theme/*` aliases above them then resolve automatically.
 - **Fonts** live in `🚀 Themes` Default: `font family/font-sans|serif|mono`. Setting a font-family STRING var forces Figma to load every font the bound text uses — `loadFontAsync` the families first or the write throws.
