@@ -67,4 +67,20 @@ material-design · art-deco · midnight-bloom · sunset-horizon · pastel-dreams
 marshmallow · nature · summer · caffeine · ghibli-studio · claude · spotify ·
 slack · perplexity · valorant · marvel · vs-code
 
+## Gotcha: relativize imports after every install
+
+shadcn writes installed files with the `@/` path alias (`@/lib/utils`,
+`@/components/ui/button`). This package is consumed **as source** and uses
+**relative** imports so it's portable (the consumer has no `@/` alias mapping to
+the DS). After any `shadcn add`, rewrite the new files:
+
+```bash
+sed -i '' 's#from "@/lib/utils"#from "../../lib/utils"#; s#from "@/components/ui/#from "./#' \
+  src/components/ui/<new>.tsx
+```
+
+`@/lib/utils` may *appear* to work in a consumer that happens to have its own
+`src/lib/utils` — but `@/components/ui/*` will hard-fail the consumer build.
+Always relativize. Then add the export to `src/components/index.ts`.
+
 _Regenerate this list anytime with the `search` commands above. Counts captured 2026-06-30._
