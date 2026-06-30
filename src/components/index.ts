@@ -94,3 +94,24 @@ export {
   type BarSeries,
   type BarRow,
 } from "./ui/bar-chart-figure"
+export {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+  NavigationMenuIndicator,
+  NavigationMenuPositioner,
+  navigationMenuTriggerStyle,
+} from "./ui/navigation-menu"
+export {
+  Sheet,
+  SheetTrigger,
+  SheetClose,
+  SheetContent,
+  SheetHeader,
+  SheetFooter,
+  SheetTitle,
+  SheetDescription,
+} from "./ui/sheet"
