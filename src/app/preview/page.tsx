@@ -277,7 +277,7 @@ export default function ThemePreview() {
                 <a
                   key={item}
                   href="#"
-                  className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                  className="text-sm font-normal text-muted-foreground transition-colors hover:text-foreground"
                 >
                   {item}
                 </a>
@@ -350,7 +350,7 @@ export default function ThemePreview() {
             ].map(([stat, label], i, arr) => (
               <React.Fragment key={label}>
                 <div className="flex flex-col items-center gap-1">
-                  <span className="text-3xl font-semibold tracking-tight">
+                  <span className="text-3xl font-normal tracking-tight">
                     {stat}
                   </span>
                   <span className="text-xs tracking-wide text-muted-foreground uppercase">
@@ -371,7 +371,7 @@ export default function ThemePreview() {
         {/* Brand reference — colour ratio + type specimen */}
         <section className="mx-auto w-full max-w-5xl px-6 py-16">
           <div className="mb-10 flex flex-col gap-2">
-            <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+            <p className="text-xs font-normal tracking-wide text-muted-foreground uppercase">
               Brand reference · v4 (work in progress)
             </p>
             <h2 className="t-display text-3xl">Colour, in the ratios we use it</h2>
@@ -393,7 +393,7 @@ export default function ThemePreview() {
                   <span className="size-5 rounded-full bg-white" />
                 </div>
                 <div className="flex items-baseline justify-between gap-2">
-                  <span className="text-sm font-medium">{c.name}</span>
+                  <span className="text-sm font-normal">{c.name}</span>
                   <span className="font-mono text-xs text-muted-foreground">
                     {c.hex}
                   </span>
@@ -438,7 +438,7 @@ export default function ThemePreview() {
                   className={`${c.cls} squircle h-12 w-full rounded-xl border border-border`}
                 />
                 <div className="flex items-baseline justify-between gap-1">
-                  <span className="t-body-sm text-sm font-medium">{c.label}</span>
+                  <span className="t-body-sm text-sm font-normal">{c.label}</span>
                   <span className="font-mono text-xs text-muted-foreground">
                     {c.pct}%
                   </span>
@@ -466,7 +466,7 @@ export default function ThemePreview() {
                   className="flex flex-col gap-2 py-5 sm:flex-row sm:gap-8"
                 >
                   <div className="flex w-56 shrink-0 flex-col gap-1 pt-1">
-                    <span className="font-mono text-xs font-medium text-foreground">
+                    <span className="font-mono text-xs font-normal text-foreground">
                       {row.label}
                     </span>
                     <span className="text-xs text-muted-foreground">
@@ -518,7 +518,7 @@ export default function ThemePreview() {
         {/* Features */}
         <section className="mx-auto w-full max-w-6xl px-6 py-16">
           <div className="mx-auto mb-12 flex max-w-2xl flex-col items-center gap-3 text-center">
-            <p className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+            <p className="text-xs font-normal tracking-wide text-muted-foreground uppercase">
               Features
             </p>
             <h2 className="text-3xl font-normal tracking-tight text-balance">
@@ -597,7 +597,7 @@ export default function ThemePreview() {
             <div className="flex items-center gap-3">
               <span className="text-sm text-muted-foreground">Monthly</span>
               <Switch checked={annual} onCheckedChange={setAnnual} />
-              <span className="text-sm font-medium">
+              <span className="text-sm font-normal">
                 Annual
                 <Badge variant="secondary" className="ml-2">
                   Save 20%
@@ -630,7 +630,7 @@ export default function ThemePreview() {
                   <CardTitle>{tier.name}</CardTitle>
                   <CardDescription>{tier.blurb}</CardDescription>
                   <div className="mt-2 flex items-baseline gap-1">
-                    <span className="text-4xl font-semibold tracking-tight">
+                    <span className="text-4xl font-normal tracking-tight">
                       ${annual ? tier.annual : tier.monthly}
                     </span>
                     <span className="text-sm text-muted-foreground">/mo</span>
@@ -675,7 +675,7 @@ export default function ThemePreview() {
                   <AvatarFallback>MJ</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-col">
-                  <span className="text-sm font-medium">Maya Jensen</span>
+                  <span className="text-sm font-normal">Maya Jensen</span>
                   <span className="text-xs text-muted-foreground">
                     Head of Design, Northbeam
                   </span>
@@ -786,7 +786,7 @@ export default function ThemePreview() {
 
         {/* SEO / editorial content — tests type at reading length */}
         <section className="mx-auto w-full max-w-3xl px-6 py-16">
-          <p className="mb-3 text-xs font-medium tracking-wide text-muted-foreground uppercase">
+          <p className="mb-3 text-xs font-normal tracking-wide text-muted-foreground uppercase">
             Guide
           </p>
           <h2 className="mb-4 text-4xl">Designing with a single token layer</h2>
@@ -878,7 +878,7 @@ export default function ThemePreview() {
               <TableBody>
                 {PROJECTS.map((p) => (
                   <TableRow key={p.name}>
-                    <TableCell className="font-medium">{p.name}</TableCell>
+                    <TableCell className="font-normal">{p.name}</TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <Avatar className="size-6">
@@ -987,7 +987,7 @@ export default function ThemePreview() {
                         className="flex items-center justify-between gap-4"
                       >
                         <div className="flex flex-col">
-                          <span className="text-sm font-medium">{t as string}</span>
+                          <span className="text-sm font-normal">{t as string}</span>
                           <span className="text-sm text-muted-foreground">
                             {d as string}
                           </span>
@@ -1057,7 +1057,7 @@ export default function ThemePreview() {
                   <div className="flex items-center gap-3">
                     <CreditCard className="size-6 text-muted-foreground" />
                     <div className="flex flex-col">
-                      <span className="text-sm font-medium">•••• 4242</span>
+                      <span className="text-sm font-normal">•••• 4242</span>
                       <span className="text-sm text-muted-foreground">
                         Expires 09 / 28
                       </span>
@@ -1096,7 +1096,7 @@ export default function ThemePreview() {
                 ["Legal", ["Privacy", "Terms", "Licences"]],
               ].map(([heading, links]) => (
                 <div key={heading as string} className="flex flex-col gap-3">
-                  <span className="text-xs font-medium tracking-wide text-muted-foreground uppercase">
+                  <span className="text-xs font-normal tracking-wide text-muted-foreground uppercase">
                     {heading as string}
                   </span>
                   {(links as string[]).map((l) => (

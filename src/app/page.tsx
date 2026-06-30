@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <main className="flex-1 container mx-auto p-8 space-y-8">
       <div>
-        <h1 className="text-4xl font-bold tracking-tight">Lia Design System</h1>
+        <h1 className="text-4xl font-normal tracking-tight">Lia Design System</h1>
         <p className="text-muted-foreground mt-2">
           v3 — shadcn / Radix / Tailwind. Modular tools for independent musicians.
         </p>
