@@ -14,16 +14,15 @@
    No Kräftig (500) and no Martina medium/bold — we don't own them, so they're
    not declared. font-synthesis-weight is disabled in the base layer so a stray
    weight utility can never fake a weight we don't have (it falls to the nearest
-   real face). Filenames keep the legacy "test-" prefix for now — the bytes are
-   licensed; a rename to drop the misnomer is tracked as a follow-up.
+   real face). All files are licensed Klim bytes.
    ============================================================ */
-@font-face { font-family: "Martina Plantijn"; src: url("/fonts/test-martina-plantijn-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: "Martina Plantijn"; src: url("/fonts/test-martina-plantijn-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
-@font-face { font-family: "Sohne"; src: url("/fonts/test-soehne-buch.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: "Sohne"; src: url("/fonts/test-soehne-buch-kursiv.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
-@font-face { font-family: "Sohne"; src: url("/fonts/test-soehne-halbfett.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
+@font-face { font-family: "Martina Plantijn"; src: url("/fonts/martina-plantijn-regular.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Martina Plantijn"; src: url("/fonts/martina-plantijn-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Sohne"; src: url("/fonts/soehne-buch.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Sohne"; src: url("/fonts/soehne-buch-kursiv.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: "Sohne"; src: url("/fonts/soehne-halbfett.woff2") format("woff2"); font-weight: 600; font-style: normal; font-display: swap; }
 @font-face { font-family: "Sohne"; src: url("/fonts/soehne-halbfett-kursiv.woff2") format("woff2"); font-weight: 600; font-style: italic; font-display: swap; }
-@font-face { font-family: "Sohne Mono"; src: url("/fonts/test-soehne-mono-buch.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: "Sohne Mono"; src: url("/fonts/soehne-mono-buch.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: swap; }
 
 :root {
   /* ============================================================
