@@ -18,6 +18,7 @@ export {
 export { Input } from "./ui/input"
 export { Label } from "./ui/label"
 export { Logo } from "./ui/logo"
+export { Eyebrow, eyebrowVariants } from "./ui/eyebrow"
 export { Tooltip, TooltipTrigger, TooltipContent, TooltipProvider } from "./ui/tooltip"
 export {
   Dialog,
