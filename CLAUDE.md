@@ -74,7 +74,17 @@ src/
 
 ### Reach for shadcn/studio Pro first
 
-The shadcn/studio Pro registries are wired in `components.json` and the licence lives in `.env`. **Before scratch-building UI, check what's already in the catalogue.**
+The shadcn/studio Pro registries are wired in `components.json` and the licence lives in `.env`. **Before scratch-building UI, check what's already in the catalogue** — the full 986-item list (by type) is in [`docs/shadcn-studio-catalogue.md`](docs/shadcn-studio-catalogue.md).
+
+**Browse / find slugs (don't guess them):**
+```bash
+set -a; . ./.env; set +a
+pnpm dlx shadcn@latest search @ss-components            # all 986, paginated
+pnpm dlx shadcn@latest search @ss-components --limit 100 --offset 200
+```
+Slugs are `<type>-NN` (`navigation-menu-09`, `button-12`) — the variant only shows on each item's "Copy CLI" button on shadcnstudio.com.
+
+> **Registry URL = style-in-path.** `components.json` registries MUST use `https://shadcnstudio.com/r/base-nova/{name}.json` (the `base-nova` = our Base UI style). The legacy `/r/blocks|components|themes/{name}.json` form is rejected with "invalid style" and silently broke every Pro install/search before 2026-06-30.
 
 Resolution order when you need new UI:
 
