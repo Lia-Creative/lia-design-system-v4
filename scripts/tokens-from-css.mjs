@@ -66,6 +66,29 @@ const SHARED_TYPE = {
   'typography/font-size/base': { value: '15', type: 'fontSizes' },
   'typography/line-height/base': { value: '22', type: 'lineHeights' },
   'typography/letter-spacing/base': { value: '0.5%', type: 'letterSpacing' },
+  // Heading scale — major third (1.25) from 15px base. Mirrors globals.css
+  // --text-{display,h1..h6} + --leading-* + the per-level heading tracking.
+  'typography/font-size/display': { value: '69', type: 'fontSizes' },
+  'typography/line-height/display': { value: '102%', type: 'lineHeights' },
+  'typography/letter-spacing/display': { value: '-2.5%', type: 'letterSpacing' },
+  'typography/font-size/h1': { value: '55', type: 'fontSizes' },
+  'typography/line-height/h1': { value: '102%', type: 'lineHeights' },
+  'typography/letter-spacing/h1': { value: '-2.5%', type: 'letterSpacing' },
+  'typography/font-size/h2': { value: '44', type: 'fontSizes' },
+  'typography/line-height/h2': { value: '110%', type: 'lineHeights' },
+  'typography/letter-spacing/h2': { value: '-1%', type: 'letterSpacing' },
+  'typography/font-size/h3': { value: '35', type: 'fontSizes' },
+  'typography/line-height/h3': { value: '120%', type: 'lineHeights' },
+  'typography/letter-spacing/h3': { value: '-0.5%', type: 'letterSpacing' },
+  'typography/font-size/h4': { value: '28', type: 'fontSizes' },
+  'typography/line-height/h4': { value: '125%', type: 'lineHeights' },
+  'typography/letter-spacing/h4': { value: '-1%', type: 'letterSpacing' },
+  'typography/font-size/h5': { value: '23', type: 'fontSizes' },
+  'typography/line-height/h5': { value: '130%', type: 'lineHeights' },
+  'typography/letter-spacing/h5': { value: '-0.5%', type: 'letterSpacing' },
+  'typography/font-size/h6': { value: '18', type: 'fontSizes' },
+  'typography/line-height/h6': { value: '135%', type: 'lineHeights' },
+  'typography/letter-spacing/h6': { value: '0%', type: 'letterSpacing' },
 }
 
 const SHADOW_VARS = [
