@@ -64,12 +64,16 @@
 
   /* v4 expressive accent palette — reserved colour, used for chips, tags,
      status, illustration and charts (NOT as CTAs; blue is the only CTA). */
-  --lia-orange: oklch(0.705 0.213 47.6); /* #f97316 */
-  --lia-magenta: oklch(0.66 0.19 322); /* #c663d6 — muted */
-  --lia-gold: oklch(0.852 0.199 91.94); /* #facc15 */
+  --lia-orange-600: oklch(0.705 0.213 47.6); /* #ff6900 chart/accent, light-mode */
+  --lia-orange-500: oklch(0.75 0.18 50);      /* #ff862e lifted for dark-mode */
+  --lia-magenta-600: oklch(0.66 0.19 322); /* #c663d6 chart/accent, light-mode */
+  --lia-magenta-500: oklch(0.72 0.17 322);    /* #d57ce3 lifted for dark-mode */
+  --lia-gold-600: oklch(0.852 0.199 91.94); /* #fdc700 chart/accent, light-mode */
+  --lia-gold-500: oklch(0.88 0.17 92);        /* #ffd32e lifted for dark-mode */
   --lia-brick: oklch(0.505 0.19 27.3); /* #b91c1c — warm editorial accent */
   --lia-pink: oklch(0.833 0.123 327.5); /* #f0abfc — soft */
-  --lia-sky: oklch(0.901 0.058 230.9); /* #bae6fd — soft */
+  --lia-sky-600: oklch(0.901 0.058 230.9); /* #b8e6fe chart/accent sky, light-mode (-600/-500 = light/dark role, as with blue) */
+  --lia-sky-500: oklch(0.86 0.09 230);        /* #91ddff lifted for dark-mode */
   --lia-pale: oklch(0.957 0.106 102.5); /* #fef08a — soft */
 
   /* ============================================================
@@ -94,10 +98,10 @@
   --input: var(--neutral-200);
   --ring: var(--lia-blue-600);
   --chart-1: var(--lia-blue-600);
-  --chart-2: var(--lia-orange);
-  --chart-3: var(--lia-magenta);
-  --chart-4: var(--lia-gold);
-  --chart-5: var(--lia-sky);
+  --chart-2: var(--lia-orange-600);
+  --chart-3: var(--lia-magenta-600);
+  --chart-4: var(--lia-gold-600);
+  --chart-5: var(--lia-sky-600);
   --sidebar: var(--neutral-100);
   --sidebar-foreground: var(--neutral-900);
   --sidebar-primary: var(--lia-blue-600);
@@ -180,10 +184,10 @@
   --input: var(--neutral-700);
   --ring: var(--lia-blue-500);
   --chart-1: var(--lia-blue-500);
-  --chart-2: oklch(0.75 0.18 50); /* orange — lifted for dark */
-  --chart-3: oklch(0.72 0.17 322); /* magenta — lifted */
-  --chart-4: oklch(0.88 0.17 92); /* gold — lifted */
-  --chart-5: oklch(0.86 0.09 230); /* sky — lifted */
+  --chart-2: var(--lia-orange-500); /* orange — dark */
+  --chart-3: var(--lia-magenta-500); /* magenta — dark */
+  --chart-4: var(--lia-gold-500); /* gold — dark */
+  --chart-5: var(--lia-sky-500); /* sky — dark */
   --sidebar: var(--neutral-900);
   --sidebar-foreground: var(--neutral-50);
   --sidebar-primary: var(--lia-blue-500);
@@ -247,12 +251,12 @@
 
   /* Expressive accent palette — exposed as utilities (bg-lia-orange,
      text-lia-magenta, border-lia-brick, …). Use sparingly: reserved accents. */
-  --color-lia-orange: var(--lia-orange);
-  --color-lia-magenta: var(--lia-magenta);
-  --color-lia-gold: var(--lia-gold);
+  --color-lia-orange: var(--lia-orange-600);
+  --color-lia-magenta: var(--lia-magenta-600);
+  --color-lia-gold: var(--lia-gold-600);
   --color-lia-brick: var(--lia-brick);
   --color-lia-pink: var(--lia-pink);
-  --color-lia-sky: var(--lia-sky);
+  --color-lia-sky: var(--lia-sky-600);
   --color-lia-pale: var(--lia-pale);
 
   --color-sidebar: var(--sidebar);
